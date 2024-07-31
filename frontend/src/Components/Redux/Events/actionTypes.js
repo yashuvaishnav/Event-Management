@@ -1,0 +1,24 @@
+export const FETCH_EVENTS_DATA = "FETCH_EVENTS_DATA";
+export const EVENTS_REQUEST = "EVENTS_REQUEST";
+export const EVENTS_ERROR = "EVENTS_ERROR";
+
+
+// export const FETCH_MOBILEPRODUCTS = "FETCH_MOBILEPRODUCTS";
+// export const PRODUCT_REQUEST = "PRODUCT_REQUEST";
+// export const PRODUCT_ERROR = "PRODUCT_ERROR";
+
+// export const FILTER_BY_TITLE = "FILTER_BY_TITLE";
+// export const SORT_BY_PRICE = "SORT_BY_PRICE";
+
+// export const ADD_TO_WISHLIST = "ADD_TO_WISHLIST";
+// export const REMOVE_FROM_WISHLIST = "REMOVE_FROM_WISHLIST";
+
+// export const PRODUCT_DETAILS = "PRODUCT_DETAILS";
+
+// export const ADD_TO_CART = "ADD_TO_CART";
+// export const REMOVE_TO_CART = "REMOVE_TO_CART";
+
+// export const CHANGE_CART_QTY = "CHANGE_CART_QTY";
+// export const FETCH_WISHLIST_DATA = "FETCH_WISHLIST_DATA";
+
+// export const FETCH_CART_DATA = "FETCH_CART_DATA";
