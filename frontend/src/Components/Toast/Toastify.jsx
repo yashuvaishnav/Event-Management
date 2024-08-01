@@ -8,7 +8,7 @@ const showToast = (message, type) => {
 };
 
 export const Toastify = () => {
-  return <ToastContainer position="bottom-left" newestOnTop />;
+  return <ToastContainer position="top-center" newestOnTop />;
 };
 
 export const showSuccessToast = (message) => showToast(message, "success");
