@@ -60,7 +60,6 @@ export const Contact = () => {
 
   return (
     <MainDiv>
-      <Navbar />
       <Toastify />
       <div className="bodyDiv">
         <div className="heading">

@@ -24,7 +24,6 @@ export const HomePage = () => {
 
   return (
     <MainDiv>
-      <Navbar />
       <>
         <div className="celebrationDiv">
           <div className="celebrateDescribe">

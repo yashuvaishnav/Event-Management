@@ -6,7 +6,6 @@ import { Footer } from "./Footer";
 export const Service = () => {
   return (
     <MainDiv>
-      <Navbar />
       <div className="heading">
         <h3>This is what</h3>
         <h1>WE SERVE</h1>

@@ -114,7 +114,6 @@ export const HostEvents = () => {
 
   return (
     <MainDiv>
-      <AdminNavbar />
       <Toastify />
       <div className="allData">
         <div className="allEvents">

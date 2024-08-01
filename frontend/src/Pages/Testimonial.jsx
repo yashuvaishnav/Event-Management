@@ -55,7 +55,6 @@ export const Testimonial = () => {
 
   return (
     <MainDiv>
-      <Navbar />
       <div className="bodyDiv">
         <div className="heading">
           <h3>WHAT CUSTOMERS SAY</h3>

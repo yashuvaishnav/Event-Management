@@ -8,7 +8,6 @@ export const Dashboard = () => {
 
   return (
     <MainDiv>
-      <AdminNavbar />
       <h1>Admin Dashboard </h1>
     </MainDiv>
   );

@@ -36,7 +36,6 @@ export const Login = () => {
 
   return (
     <MainDiv>
-      <Navbar />
       <Toastify />
       <div className="imageDiv">
         <img

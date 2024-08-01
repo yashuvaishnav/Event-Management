@@ -102,7 +102,6 @@ export const ClientParticipants = () => {
 
   return (
     <MainDiv>
-      <AdminNavbar />
       <Toastify />
       <div className="clientDataAndPagination">
         <div className="heading">

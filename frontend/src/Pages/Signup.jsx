@@ -46,7 +46,6 @@ export const Signup = () => {
 
   return (
     <MainDiv>
-      <Navbar />
       <Toastify /> 
         <div className="heading">
           <h1>Signup Form</h1>

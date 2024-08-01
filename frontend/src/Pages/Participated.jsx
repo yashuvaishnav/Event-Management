@@ -111,7 +111,6 @@ useEffect(() => {
 
   return (
     <MainDiv>
-      <AdminNavbar />
       <Toastify />
       <div className="allData">
         <div className="heading">

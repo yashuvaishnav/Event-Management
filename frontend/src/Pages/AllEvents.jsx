@@ -62,7 +62,6 @@ export const AllEvents = () => {
 
   return (
     <MainDiv>
-      <AdminNavbar />
       <div className="allEventsData">
         <div className="allEvents">
           <p>ALL UPCOMING</p>

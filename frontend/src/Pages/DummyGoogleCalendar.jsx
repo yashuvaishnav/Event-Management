@@ -245,7 +245,6 @@ export const DummyGoogleCalendar = () => {
 
   return (
     <>
-      <AdminNavbar />
       <Authorize>
         {!isAuthorized && (
           <button id="authorize_button" onClick={handleAuthClick}>
