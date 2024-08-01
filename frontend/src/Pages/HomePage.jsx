@@ -45,7 +45,7 @@ export const HomePage = () => {
             <img
               src="https://bcreactor.com/wp-content/uploads/2018/08/Case-Studies.png"
               width={450}
-              height={400}
+              height={380}
               alt=""
             />
           </div>
@@ -70,7 +70,7 @@ export const HomePage = () => {
                       <p>Date : {item.start}</p>
                       <p>Venue : {item.location}</p>
                       <p>organizedBy : {item.keynoteSpeaker}</p>
-                      <p>Participants Limit : {item.participantsLimit}</p>
+                      <button className="registrationForm">Registration</button>
                     </div>
                   ))
                 ) : (
@@ -89,8 +89,10 @@ export const HomePage = () => {
 const MainDiv = styled.div`
   box-sizing: border-box;
   .celebrationDiv {
+    /* border: 1px solid black; */
+    padding: 10px;
     width: 85%;
-    margin: 100px auto;
+    margin: 70px auto;
     display: flex;
     justify-content: space-evenly;
     gap: 100px;
@@ -128,7 +130,7 @@ const MainDiv = styled.div`
 `;
 const LatestEvents = styled.div`
   /* border: 2px solid black; */
-  margin: 150px 0px 50px 0px;
+  margin: 50px 0px 50px 0px;
 
   .latestEvents {
     text-align: center;
@@ -146,15 +148,16 @@ const LatestEvents = styled.div`
   }
 
   .cards {
-    width: 75%;
-    margin: 50px auto;
+    width: 90%;
+    margin: 30px auto;
     display: flex;
     justify-content: space-evenly;
     box-sizing: border-box;
+    /* border: 1px solid black; */
   }
   .card-description {
     text-align: center;
-    width: 28%;
+    width: 24%;
     margin: 10px;
     padding: 20px;
     border-radius: 10px;
@@ -165,13 +168,28 @@ const LatestEvents = styled.div`
     display: flex;
     flex-direction: column;
     h1 {
-      font-size: 24px;
+      font-size: 22px;
     }
     p {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 500;
       margin: 3px 0;
       line-height: 1.2;
+    }
+    .registrationForm {
+      width: 50%;
+      margin: auto;
+      margin-top: 10px;
+      padding: 8px;
+      font-size: 17px;
+      border-radius: 5px;
+      background-color: #2678ec;
+      color: #ffff;
+      border: none;
+      cursor: pointer;
+      &:hover{
+        background-color: #345584;
+      }
     }
   }
 

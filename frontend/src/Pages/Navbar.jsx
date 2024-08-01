@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const isLoggedInToken = localStorage.getItem("token");
   return (
     <NavbarDiv>
       <div className="logoAndSections">
@@ -49,7 +50,13 @@ export const Navbar = () => {
         </div>
 
         <div className="dashboardDiv">
-          <button onClick={() => navigate("/adminDashboard")}>Dashboard</button>
+          {isLoggedInToken ? (
+            <button onClick={() => navigate("/adminDashboard")}>
+              Dashboard
+            </button>
+          ) : (
+            <button onClick={() => navigate("/login")}>Login</button>
+          )}
         </div>
       </div>
     </NavbarDiv>
