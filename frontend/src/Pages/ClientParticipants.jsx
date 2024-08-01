@@ -130,7 +130,7 @@ export const ClientParticipants = () => {
                   <th>Company Name</th>
                   <th>Email</th>
                   <th>Contact</th>
-                  <th>Mail</th>
+                  <th>Send Mail</th>
                 </tr>
               </thead>
               <tbody>
@@ -142,7 +142,7 @@ export const ClientParticipants = () => {
                       <td>{client.companyName}</td>
                       <td>{client.email}</td>
                       <td>{client.contact}</td>
-                      <td>
+                      <td className="send-mail">
                         <button
                           className="mail-btn"
                           onClick={() => sendMail(client)}
@@ -235,6 +235,11 @@ const MainDiv = styled.div`
     &:hover {
       background-color: #a1bee0;
       /* cursor: pointer; */
+    }
+    .send-mail{
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   .client-table th,

@@ -49,5 +49,14 @@ googleRouter.patch("/update/:id", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+googleRouter.delete("/delete/:id",async(req,res)=>{
+  try {
+    const id = req.params.id;
+    const res = await GoogleEventModel.findByIdAndDelete({_id : id});
+    res.send({ msg: "Event deleted successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+})
 
 module.exports = { googleRouter };

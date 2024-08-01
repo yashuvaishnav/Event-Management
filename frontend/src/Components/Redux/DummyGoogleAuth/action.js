@@ -28,7 +28,7 @@ export const fetchGoogleEventsData = () => (dispatch) => {
 };
 
 export const patchAttendees =
-  (eventNormalId, updatedEventData) => (dispatch) => {
+  (eventNormalId, updatedEventData) => () => {
     axios
       .patch(
         `http://localhost:8080/calender/update/${eventNormalId}`,
@@ -43,12 +43,23 @@ export const patchAttendees =
       });
   };
 
-export const createGoogleEvent = (obj) => (dispatch) => {
+export const createGoogleEvent = (obj) => () => {
   axios
     .post("http://localhost:8080/calender/googleEvent", obj)
     .then((res) => {
       console.log("res", res.data);
       showSuccessToast("Event created successfully");
+    })
+    .catch((err) => {
+      showErrorToast(err.response.data.msg);
+    });
+};
+
+export const deleteGoogleEvent = (eventId) => () => {
+  axios
+    .delete(`http://localhost:8080/calender/delete/${eventId}`)
+    .then((res) => {
+      showSuccessToast("Event Deleted successfully");
     })
     .catch((err) => {
       showErrorToast(err.response.data.msg);

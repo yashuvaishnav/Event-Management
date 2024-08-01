@@ -135,8 +135,8 @@ useEffect(() => {
             >
               <option value="">Select Events</option>
               {eventsData.map((event) => (
-                <option key={event._id} value={event._id}>
-                  {event._id}
+                <option key={event._id} value={event._id} className="selectedOption">
+                  {event.eventTitle}
                 </option>
               ))}
             </select>
@@ -155,7 +155,7 @@ useEffect(() => {
                   <th>Company Name</th>
                   <th>Email</th>
                   <th>Contact</th>
-                  <th>Mail</th>
+                  <th>Send Mail</th>
                 </tr>
               </thead>
               <tbody>
@@ -177,7 +177,7 @@ useEffect(() => {
                       <td>{client.companyName}</td>
                       <td>{client.email}</td>
                       <td>{client.contact}</td>
-                      <td>
+                      <td className="send-mail">
                         <button
                           className="mail-btn"
                           onClick={() => postThankYouMail(client)}
@@ -244,16 +244,19 @@ const MainDiv = styled.div`
     justify-content: space-between;
     align-items: center;
     .searchClient input {
-      padding: 5px 0px 5px 10px;
+      padding: 10px 0px 10px 10px;
       font-size: 16px;
       border: 2px solid #868383cc;
       outline: none;
       border-radius: 7px;
     }
     .filteredEvent select {
-      padding: 5px;
+      padding: 10px;
       border-radius: 10px;
       font-size: 18px;
+      .selectedOption{
+        color: red;
+      }
     }
   }
 
@@ -283,6 +286,11 @@ const MainDiv = styled.div`
     &:hover {
       background-color: #a1bee0;
       /* cursor: pointer; */
+    }
+    .send-mail{
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 

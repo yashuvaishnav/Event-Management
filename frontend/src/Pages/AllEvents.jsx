@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Popup } from "../Components/PopupComponent/Popup";
@@ -6,29 +5,33 @@ import { AdminNavbar } from "./AdminNavbar";
 import { Loader } from "../Components/Loader/Loading";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { fetchEventsData } from "../Components/Redux/Events/action";
-import { fetchGoogleEventsData } from "../Components/Redux/DummyGoogleAuth/action";
+import {
+  deleteGoogleEvent,
+  fetchGoogleEventsData,
+} from "../Components/Redux/DummyGoogleAuth/action";
 
 export const AllEvents = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const dispatch = useDispatch();
+  const gapi = window.gapi;
 
-  const { eventsData,isLoading  } = useSelector((store) => {
+  const { eventsData, isLoading } = useSelector((store) => {
     return {
       eventsData: store.eventReducer.eventsData,
-      isLoading : store.eventReducer.isLoading,
+      isLoading: store.eventReducer.isLoading,
     };
   }, shallowEqual);
-  const { googleEventsData  } = useSelector((store) => {
+  const { googleEventsData } = useSelector((store) => {
     return {
       googleEventsData: store.googleEventReducer.googleEventsData,
     };
   }, shallowEqual);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchEventsData());
     dispatch(fetchGoogleEventsData());
-  },[])
+  }, []);
 
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
@@ -39,7 +42,23 @@ export const AllEvents = () => {
     togglePopup();
   };
 
-  
+  const handleDeleteEvent = (event) => {
+    const request = gapi.client.calendar.events.delete({
+      calendarId: "primary",
+      eventId: event.key,
+      sendUpdates: "all",
+    });
+
+    request.execute(
+      (response) => {
+        console.log("Event deleted:", response);
+        dispatch(deleteGoogleEvent(event._id));
+      },
+      (error) => {
+        console.error("Error deleting event:", error);
+      }
+    );
+  };
 
   return (
     <MainDiv>
@@ -53,19 +72,34 @@ export const AllEvents = () => {
           <Loader />
         ) : (
           <div className="cardsContainer">
-            {googleEventsData.length > 0 ? googleEventsData.length > 0 &&
+            {googleEventsData.length > 0 ? (
+              googleEventsData.length > 0 &&
               googleEventsData.map((event, i) => (
                 <Card key={i} $imageurl={event.imageUrl}>
                   <div className="content" key={i}>
                     <h1>{event.summary}</h1>
                     <p>{event.location}</p>
                     <p>{event.start}</p>
-                    <button onClick={() => handleViewDetails(event)}>
-                      View Details
-                    </button>
+                    <div className="ViewAndDeleteEvent">
+                      <button
+                        className="viewEvent"
+                        onClick={() => handleViewDetails(event)}
+                      >
+                        View Details
+                      </button>
+                      <button
+                        className="deleteEvent"
+                        onClick={() => handleDeleteEvent(event)}
+                      >
+                        Delete Event
+                      </button>
+                    </div>
                   </div>
                 </Card>
-              )) : <h1>No Events Available</h1>}
+              ))
+            ) : (
+              <h1>No Events Available</h1>
+            )}
           </div>
         )}
         {isPopupVisible && selectedEvent && (
@@ -157,14 +191,27 @@ const Card = styled.div`
     line-height: 1.5;
     font-size: 20px;
   }
+  .content .ViewAndDeleteEvent {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .viewEvent {
+      background-color: #2678ec;
+    }
+    .deleteEvent {
+      background-color: red;
+    }
+  }
   .content button {
     margin: 30px 0px 10px 0px;
-    background-color: #2678ec;
     color: #ffff;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 16px;
   }
 `;
 

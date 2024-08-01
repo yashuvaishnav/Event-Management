@@ -8,10 +8,10 @@ import { fetchTestimonialData } from "../Components/Redux/Suggestions/action";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 const avatars = [
-  "https://m.media-amazon.com/images/I/416K4jaHdbL._SY355_.jpg",
-  "https://images-na.ssl-images-amazon.com/images/I/41AFp4Z%2BAwL.png",
-  "https://i.pinimg.com/originals/68/b4/12/68b41201d42e67fd70abdb7f600e93f3.jpg",
-  "https://th.bing.com/th/id/OIP.v1YTHOESiooNX4Zmuo_vrgAAAA?rs=1&pid=ImgDetMain",
+  "/avatars/Asian Man.png",
+  "/avatars/College Student.png",
+  "/avatars/Western Man.png",
+  "/avatars/Young Lady.png",
 ];
 
 export const Testimonial = () => {
