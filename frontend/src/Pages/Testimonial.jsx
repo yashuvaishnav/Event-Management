@@ -18,18 +18,17 @@ export const Testimonial = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const dispatch = useDispatch();
 
-  const { testimonialData,isLoading } = useSelector((store) => {
+  const { testimonialData, isLoading } = useSelector((store) => {
     return {
       testimonialData: store.testimonialReducer.testimonialData,
-      isLoading : store.testimonialReducer.isLoading,
+      isLoading: store.testimonialReducer.isLoading,
     };
   }, shallowEqual);
   let letestData = testimonialData.slice(-4);
-  
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchTestimonialData());
-  },[])
+  }, []);
 
   useEffect(() => {
     if (letestData.length > 0) {

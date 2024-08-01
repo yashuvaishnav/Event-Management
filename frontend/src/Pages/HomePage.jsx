@@ -11,16 +11,16 @@ export const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { googleEventsData,isLoading  } = useSelector((store) => {
+  const { googleEventsData, isLoading } = useSelector((store) => {
     return {
       googleEventsData: store.googleEventReducer.googleEventsData,
     };
   }, shallowEqual);
-  console.log(googleEventsData)
+  console.log(googleEventsData);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchGoogleEventsData());
-  },[])
+  }, []);
 
   return (
     <MainDiv>
@@ -61,18 +61,22 @@ export const HomePage = () => {
                 <h1>LATEST EVENTS</h1>
               </div>
               <div className="cards">
-                {googleEventsData.length > 0 ? googleEventsData?.map((item, i) => (
-                  <div className="card-description" key={i}>
-                    <div className="imageDiv">
-                      <img src={item.imageUrl} alt="" />
+                {googleEventsData.length > 0 ? (
+                  googleEventsData?.map((item, i) => (
+                    <div className="card-description" key={i}>
+                      <div className="imageDiv">
+                        <img src={item.imageUrl} alt="" />
+                      </div>
+                      <h1>Title : {item.summary}</h1>
+                      <p>Date : {item.start}</p>
+                      <p>Venue : {item.location}</p>
+                      <p>organizedBy : {item.keynoteSpeaker}</p>
+                      <p>Participants Limit : {item.participantsLimit}</p>
                     </div>
-                    <h1>Title : {item.summary}</h1>
-                    <p>Date : {item.start}</p>
-                    <p>Venue : {item.location}</p>
-                    <p>organizedBy : {item.keynoteSpeaker}</p>
-                    <p>Participants Limit : {item.participantsLimit}</p>
-                  </div>
-                )) : <h2>No Events Available</h2>}
+                  ))
+                ) : (
+                  <h2>No Events Available</h2>
+                )}
               </div>
             </>
           )}
@@ -86,18 +90,19 @@ export const HomePage = () => {
 const MainDiv = styled.div`
   box-sizing: border-box;
   .celebrationDiv {
-    width: 80%;
-    margin: 120px auto;
+    width: 85%;
+    margin: 100px auto;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    gap: 100px;
+    // align-items: center;
     .celebrateDescribe {
-      padding: 10px;
-      text-align: center;
+      // padding: 10px;
+      // text-align: center;
       width: 50%;
-
       h1 {
         font-size: 40px;
+        margin-top: 0;
       }
       p {
         font-size: 20px;
@@ -118,7 +123,7 @@ const MainDiv = styled.div`
       width: 50%;
       display: flex;
       justify-content: center;
-      align-items: center;
+      // align-items: center;
     }
   }
 `;
