@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { Loader } from "../Components/Loader/Loading";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";

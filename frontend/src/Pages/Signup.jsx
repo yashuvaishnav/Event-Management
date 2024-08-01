@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Navbar } from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/ReactToastify.min.css";
 import { showSuccessToast,showErrorToast, Toastify } from "../Components/Toast/Toastify";

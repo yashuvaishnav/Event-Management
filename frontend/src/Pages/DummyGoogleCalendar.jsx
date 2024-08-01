@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import {
   createGoogleEvent,
 } from "../Components/Redux/DummyGoogleAuth/action";
-import { AdminNavbar } from "./AdminNavbar";
 
 export const DummyGoogleCalendar = () => {
   const [accessTokenTemp, setAccessTokenTemp] = useState("");

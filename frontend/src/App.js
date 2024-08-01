@@ -1,6 +1,4 @@
 import { AllRoutes } from "./Components/AllRoutes/AllRoutes";
-import { GoogleAuthentication } from "./Pages/GoogleAuthentication";
-import { DummyGoogleCalendar } from "./Pages/DummyGoogleCalendar";
 import { Navbar } from "./Pages/Navbar";
 import { useLocation } from "react-router-dom";
 import { AdminNavbar } from "./Pages/AdminNavbar";
@@ -21,10 +19,7 @@ function App() {
       ) : (
         <Navbar />
       )}
-
       <AllRoutes />
-      {/* <GoogleAuthentication/> */}
-      {/* <DummyGoogleCalendar /> */}
       {location.pathname !== "/adminDashboard" ||
         location.pathname !== "/allEvents" ||
         location.pathname !== "/participants" ||

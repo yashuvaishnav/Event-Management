@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Popup } from "../Components/PopupComponent/Popup";
-import { AdminNavbar } from "./AdminNavbar";
 import { Loader } from "../Components/Loader/Loading";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { fetchEventsData } from "../Components/Redux/Events/action";
@@ -16,9 +15,8 @@ export const AllEvents = () => {
   const dispatch = useDispatch();
   const gapi = window.gapi;
 
-  const { eventsData, isLoading } = useSelector((store) => {
+  const {  isLoading } = useSelector((store) => {
     return {
-      eventsData: store.eventReducer.eventsData,
       isLoading: store.eventReducer.isLoading,
     };
   }, shallowEqual);

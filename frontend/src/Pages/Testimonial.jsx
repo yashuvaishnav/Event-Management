@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { Loader } from "../Components/Loader/Loading";
 import { fetchTestimonialData } from "../Components/Redux/Suggestions/action";
