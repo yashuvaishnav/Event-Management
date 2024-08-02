@@ -3,12 +3,15 @@ import styled from "styled-components";
 import { Navbar } from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/ReactToastify.min.css";
-import { showSuccessToast,showErrorToast, Toastify } from "../Components/Toast/Toastify";
+import {
+  showSuccessToast,
+  showErrorToast,
+  Toastify,
+} from "../Components/Toast/Toastify";
 import { useDispatch } from "react-redux";
 import { postSignUpData } from "../Components/Redux/Admin/action";
 
 export const Signup = () => {
-  
   const [adminSignup, setAdminSignup] = useState({
     name: "",
     contact: "",
@@ -29,27 +32,22 @@ export const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      postSignUpData(
-        adminSignup,
-        showErrorToast,
-        showSuccessToast,
-        navigate
-      )
+      postSignUpData(adminSignup, showErrorToast, showSuccessToast, navigate)
     );
     setAdminSignup({
       name: "",
       contact: "",
       email: "",
       password: "",
-    })
+    });
   };
 
   return (
     <MainDiv>
-      <Toastify /> 
-        <div className="heading">
-          <h1>Signup Form</h1>
-        </div>
+      <Toastify />
+      <div className="heading">
+        <h1>Signup Form</h1>
+      </div>
       <div className="formAndImageDiv">
         <form className="formDiv" onSubmit={handleSubmit}>
           <input
@@ -108,9 +106,9 @@ export const Signup = () => {
 };
 const MainDiv = styled.div`
   box-sizing: border-box;
-  .heading{
+  .heading {
     text-align: center;
-    margin : 50px 0px ;
+    margin: 40px 0px 50px 0px;
     font-size: 25px;
   }
   .formAndImageDiv {
@@ -119,6 +117,7 @@ const MainDiv = styled.div`
     align-items: center;
     width: 70%;
     margin: auto;
+    margin-bottom: 20px;
   }
   .formDiv {
     width: 50%;
@@ -131,9 +130,9 @@ const MainDiv = styled.div`
     border-radius: 8px;
   }
   .formDiv > .loginBtn {
-    width: 45%;
+    width: 80%;
     display: flex;
-    /* justify-content: flex-start; */
+    justify-content: center;
     align-items: center;
     text-align: center;
 
@@ -154,14 +153,14 @@ const MainDiv = styled.div`
       color: #1b73f0;
       font-size: 18px;
       cursor: pointer;
-      &:hover{
+      &:hover {
         background: none;
-      color: #1b437a;
+        color: #1b437a;
       }
     }
   }
   .formDiv input {
-    width: 40%;
+    width: 80%;
     padding: 15px;
     margin-bottom: 15px;
     border: 1px solid #ccc;

@@ -76,7 +76,7 @@ const MainDiv = styled.div`
     h1 {
       font-size: 35px;
       color: #222;
-      margin-bottom: 100px;
+      margin-bottom: 50px;
       line-height: 0.2;
     }
   }

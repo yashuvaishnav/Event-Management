@@ -1,7 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Toastify, showErrorToast, showSuccessToast } from "../Components/Toast/Toastify";
+import {
+  Toastify,
+  showErrorToast,
+  showSuccessToast,
+} from "../Components/Toast/Toastify";
 
 export const FeedbackForm = () => {
   const [feedbackDetails, setFeedbackDetails] = useState({
@@ -28,7 +32,7 @@ export const FeedbackForm = () => {
         feedbackDetails
       );
       console.log(res);
-      showSuccessToast(res.data.msg)
+      showSuccessToast(res.data.msg);
       setFeedbackDetails({
         clientName: "",
         companyName: "",
@@ -36,7 +40,7 @@ export const FeedbackForm = () => {
         remarks: "",
       });
     } catch (error) {
-      showErrorToast("Not Added Feedback")
+      showErrorToast("Not Added Feedback");
     }
   };
 
@@ -57,7 +61,9 @@ export const FeedbackForm = () => {
         <div className="formDiv">
           <form onSubmit={handleSubmitFeedback}>
             <FormGroup>
-              <label htmlFor="name">Name<span>*</span></label>
+              <label htmlFor="name">
+                Name<span>*</span>
+              </label>
               <input
                 type="text"
                 name="clientName"
@@ -68,7 +74,9 @@ export const FeedbackForm = () => {
             </FormGroup>
 
             <FormGroup>
-              <label htmlFor="companyName">Company Name<span>*</span></label>
+              <label htmlFor="companyName">
+                Company Name<span>*</span>
+              </label>
               <input
                 type="text"
                 name="companyName"
@@ -78,7 +86,9 @@ export const FeedbackForm = () => {
               />
             </FormGroup>
             <FormGroup>
-              <label htmlFor="email">Email<span>*</span></label>
+              <label htmlFor="email">
+                Email<span>*</span>
+              </label>
               <input
                 type="email"
                 id="email"
@@ -90,8 +100,12 @@ export const FeedbackForm = () => {
             </FormGroup>
 
             <FormGroup>
-              <label htmlFor="remarks">Remarks<span>*</span></label>
+              <label htmlFor="remarks">
+                Remarks<span>*</span>
+              </label>
               <textarea
+                style={{ width: "93%" }}
+                rows={4}
                 name="remarks"
                 value={feedbackDetails.remarks}
                 onChange={handleInputChange}
@@ -150,7 +164,7 @@ const MainDiv = styled.div`
     padding: 20px;
     border-radius: 8px;
     .submitBtn {
-      padding: 8px 10px;
+      padding: 10px 20px;
       font-size: 16px;
       /* background: none; */
       background-color: #2678ec;
@@ -162,26 +176,26 @@ const MainDiv = styled.div`
     }
   }
   @media (max-width: 1900px) {
-  .logoNameAndFormDiv {
-    width: 35%;
+    .logoNameAndFormDiv {
+      width: 35%;
+    }
   }
-}
-@media (max-width: 1400px) {
-  .logoNameAndFormDiv {
-    width: 50%;
+  @media (max-width: 1400px) {
+    // .logoNameAndFormDiv {
+    //   width: 50%;
+    // }
   }
-}
-@media (max-width: 900px) {
-  .logoNameAndFormDiv {
-    width: 60%;
+  @media (max-width: 900px) {
+    .logoNameAndFormDiv {
+      width: 60%;
+    }
   }
-}
 
-@media (max-width: 480px) {
-  .logoNameAndFormDiv {
-    width: 100%;
+  @media (max-width: 480px) {
+    .logoNameAndFormDiv {
+      width: 100%;
+    }
   }
-}
 `;
 
 const FormGroup = styled.div`

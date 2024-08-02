@@ -63,7 +63,7 @@ export const Contact = () => {
       <Toastify />
       <div className="bodyDiv">
         <div className="heading">
-          <h3>DROP US A</h3>
+          <h3>DROP US A </h3>
           <h1>SUGGESTION</h1>
         </div>
         {selectedTab === "clientSuggestion" ? (
@@ -162,10 +162,7 @@ export const Contact = () => {
                 >
                   Back
                 </button>
-                <button
-                type="submit"
-                  className="sendSuggestionBtn"
-                >
+                <button type="submit" className="sendSuggestionBtn">
                   Send
                 </button>
               </div>
@@ -187,7 +184,7 @@ export const Contact = () => {
 const MainDiv = styled.div`
   .heading {
     text-align: center;
-    margin: 50px 0;
+    margin: 50px 0 20px 0px;
     h3 {
       margin: 0;
       padding: 0;
@@ -226,7 +223,7 @@ const MainDiv = styled.div`
     display: flex;
     flex-direction: column;
     padding: 20px;
-    width: 30%;
+    width: 40%;
     .clientAndSupportBtn {
       display: flex;
     }

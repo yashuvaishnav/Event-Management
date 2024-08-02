@@ -1,9 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const Navbar = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
   return (
     <NavbarDiv>
       <div className="logoAndSections">
@@ -22,19 +24,24 @@ export const Navbar = () => {
             onClick={() => {
               navigate("/");
             }}
+            style={{ color: location.pathname === "/" ? "#2678ec" : "" }}
           >
-            Homepage
+            Home
           </button>
           <button
             onClick={() => {
               navigate("/service");
             }}
+            style={{ color: location.pathname === "/service" ? "#2678ec" : "" }}
           >
             Services
           </button>
           <button
             onClick={() => {
               navigate("/testimonial");
+            }}
+            style={{
+              color: location.pathname === "/testimonial" ? "#2678ec" : "",
             }}
           >
             Testimonial
@@ -43,8 +50,11 @@ export const Navbar = () => {
             onClick={() => {
               navigate("/contact");
             }}
+            style={{
+              color: location.pathname === "/contact" ? "#2678ec" : "",
+            }}
           >
-            Contacts
+            Contact us
           </button>
         </div>
 
