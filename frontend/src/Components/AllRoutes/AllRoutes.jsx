@@ -9,7 +9,6 @@ import { Testimonial } from "../../Pages/Testimonial";
 import { Contact } from "../../Pages/Contact";
 import { ClientParticipants } from "../../Pages/ClientParticipants";
 import { Participated } from "../../Pages/Participated";
-import { HostEvents } from "../../Pages/HostEvents";
 import { Login } from "../../Pages/Login";
 import { Signup } from "../../Pages/Signup";
 import { PrivateRoute } from "../AllRoutes/PrivateRoute";
@@ -34,7 +33,6 @@ export const AllRoutes = () => {
       <Route path="/allEvents" element={<PrivateRoute><AllEvents /></PrivateRoute>} />
       <Route path="/participants" element={<PrivateRoute><ClientParticipants /></PrivateRoute>}/>
       <Route path="/participated" element={<PrivateRoute><Participated /></PrivateRoute>} />
-      {/* <Route path="/eventHost" element={<PrivateRoute><HostEvents /></PrivateRoute>} /> */}
       <Route path="/dummyHostEvent" element={<PrivateRoute><DummyGoogleCalendar /></PrivateRoute>} />
 
       {/* forms */}

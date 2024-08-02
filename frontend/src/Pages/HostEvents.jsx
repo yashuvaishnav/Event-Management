@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { AiFillDelete } from "react-icons/ai";
-import { AdminNavbar } from "./AdminNavbar";
 import { useNavigate } from "react-router-dom";
 import {
   Toastify,

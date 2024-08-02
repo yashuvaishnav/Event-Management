@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SiGmail } from "react-icons/si";
-import { AdminNavbar } from "./AdminNavbar";
 import { Loader } from "../Components/Loader/Loading";
 import {
   Toastify,

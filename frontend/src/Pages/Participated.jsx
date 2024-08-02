@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { AdminNavbar } from "./AdminNavbar";
 import { Loader } from "../Components/Loader/Loading";
 import { SiGmail } from "react-icons/si";
 import {
