@@ -6,7 +6,6 @@ import { Footer } from "./Pages/Footer";
 
 function App() {
   const location = useLocation();
-  console.log("location", location);
 
   return (
     <div>

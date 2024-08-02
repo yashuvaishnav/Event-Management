@@ -8,14 +8,16 @@ import {
   deleteGoogleEvent,
   fetchGoogleEventsData,
 } from "../Components/Redux/DummyGoogleAuth/action";
+import { PiWarningCircleLight } from "react-icons/pi";
 
 export const AllEvents = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const dispatch = useDispatch();
   const gapi = window.gapi;
 
-  const {  isLoading } = useSelector((store) => {
+  const { isLoading } = useSelector((store) => {
     return {
       isLoading: store.eventReducer.isLoading,
     };
@@ -40,23 +42,53 @@ export const AllEvents = () => {
     togglePopup();
   };
 
-  const handleDeleteEvent = (event) => {
+  const toggleConfirm = () => {
+    setIsConfirmVisible(!isConfirmVisible);
+  };
+
+  const handleDeleteEventClick = (event) => {
+    setSelectedEvent(event);
+    toggleConfirm();
+  };
+
+  const confirmDeleteEvent = () => {
+    console.log(selectedEvent.key,selectedEvent._id);
     const request = gapi.client.calendar.events.delete({
       calendarId: "primary",
-      eventId: event.key,
+      eventId: selectedEvent.key,
       sendUpdates: "all",
     });
 
     request.execute(
       (response) => {
         console.log("Event deleted:", response);
-        dispatch(deleteGoogleEvent(event._id));
+        dispatch(deleteGoogleEvent(selectedEvent._id));
+        setSelectedEvent(null);
+        toggleConfirm();
       },
       (error) => {
         console.error("Error deleting event:", error);
       }
     );
   };
+
+  // const handleDeleteEvent = (event) => {
+  //   const request = gapi.client.calendar.events.delete({
+  //     calendarId: "primary",
+  //     eventId: event.key,
+  //     sendUpdates: "all",
+  //   });
+
+  //   request.execute(
+  //     (response) => {
+  //       console.log("Event deleted:", response);
+  //       dispatch(deleteGoogleEvent(event._id));
+  //     },
+  //     (error) => {
+  //       console.error("Error deleting event:", error);
+  //     }
+  //   );
+  // };
 
   return (
     <MainDiv>
@@ -86,7 +118,7 @@ export const AllEvents = () => {
                       </button>
                       <button
                         className="deleteEvent"
-                        onClick={() => handleDeleteEvent(event)}
+                        onClick={() => handleDeleteEventClick(event)}
                       >
                         Delete Event
                       </button>
@@ -106,6 +138,21 @@ export const AllEvents = () => {
             event={selectedEvent}
           />
         )}
+        {isConfirmVisible && (
+          <div className="confirmationPopup">
+            <PiWarningCircleLight />
+            <h1>Are you sure?</h1>
+            <p>You won't be able to revert this!</p>
+            <div className="deleteAndCancelBtn">
+              <button onClick={confirmDeleteEvent} className="deleteBtn">
+                Yes, Delete it
+              </button>
+              <button onClick={toggleConfirm} className="cancelBtn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </MainDiv>
   );
@@ -117,35 +164,67 @@ const MainDiv = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px 0px;
+    padding: 40px 0px;
     p {
-      line-height: 1.5;
+      line-height: 1.2;
       margin: 0;
       padding: 0;
-      font-size: 20px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 400;
     }
     h1 {
       font-size: 35px;
       margin: 0;
       padding: 0;
-      line-height: 1.5;
+      line-height: 1.2;
     }
   }
-  /* .loding{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  } */
   .cardsContainer {
-    /* border: 2px solid black; */
     width: 80%;
     margin: auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
     justify-content: space-between;
-    /* align-items: center; */
+  }
+  .confirmationPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 0px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    text-align: center;
+    z-index: 1000;
+    max-width: 400px;
+    width: 90%;
+    svg {
+      color: #eaad3c;
+      font-size: 70px;
+      font-weight: lighter;
+    }
+    .deleteAndCancelBtn {
+      margin-top: 20px;
+      .cancelBtn {
+        background-color: #ff4d4f;
+        color: #fff;
+      }
+      .deleteBtn {
+        color: #fff;
+        background-color: #2678ec;
+      }
+    }
+  }
+
+  .confirmationPopup button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
   }
 `;
 
@@ -154,7 +233,7 @@ const Card = styled.div`
   position: relative;
   width: 90%;
   margin: auto;
-  padding: 30px;
+  padding: 20px;
   color: white;
   text-align: center;
   overflow: hidden;
@@ -181,15 +260,18 @@ const Card = styled.div`
   }
   .content h1 {
     font-size: 40px;
+    line-height:1.9;
+    margin:0px;
+    padding:0px;
   }
   .content p {
     margin: 0px;
     padding: 0px;
-    line-height: 1.5;
-    font-size: 20px;
+    line-height: 1.8;
+    font-size: 18px;
   }
   .content .ViewAndDeleteEvent {
-    width: 50%;
+    width: 70%;
     margin: auto;
     display: flex;
     justify-content: space-around;
@@ -200,15 +282,15 @@ const Card = styled.div`
     .deleteEvent {
       background-color: red;
     }
-  }
-  .content button {
-    margin: 30px 0px 10px 0px;
-    color: #ffff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
+    button {
+      margin-top: 20px;
+      color: #ffff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
   }
 `;
 
