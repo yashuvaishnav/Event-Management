@@ -63,7 +63,7 @@ export const Testimonial = () => {
           <Loader />
         ) : (
           <div className="testimonialsDiv">
-            <div
+            {letestData.length > 0 ? <><div
               className="slider"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
@@ -96,7 +96,7 @@ export const Testimonial = () => {
                   onClick={() => setCurrentIndex(index)}
                 ></div>
               ))}
-            </div>
+            </div></> : <h1>No Data Available</h1>}
           </div>
         )}
       </div>
@@ -228,3 +228,6 @@ const MainDiv = styled.div`
     background: #333;
   }
 `;
+
+
+
