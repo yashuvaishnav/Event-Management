@@ -95,7 +95,7 @@ const MainDiv = styled.div`
   .cardDiv {
     position: relative;
     width: 80%;
-    padding: 40px;
+    padding: 30px;
     color: white;
     text-align: center;
     overflow: hidden;
@@ -141,7 +141,7 @@ const MainDiv = styled.div`
   }
 
   .cardDiv h1 {
-    font-size: 60px;
+    font-size: 50px;
     margin: 10px 0;
   }
 

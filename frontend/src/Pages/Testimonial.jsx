@@ -116,14 +116,14 @@ const MainDiv = styled.div`
 
   .heading {
     h3 {
-      font-size: 20px;
+      font-size: 18px;
       color: #333;
       font-weight: 500;
     }
     h1 {
-      font-size: 35px;
+      font-size: 30px;
       color: #222;
-      margin-bottom: 100px;
+      margin-bottom: 40px;
       line-height: 0.2;
     }
   }
@@ -143,7 +143,7 @@ const MainDiv = styled.div`
   .card {
     min-width: 100%;
     box-sizing: border-box;
-    padding: 40px 20px;
+    padding: 20px 20px;
     text-align: center;
     background-color: #f0f4f8;
     border-radius: 10px;
@@ -159,8 +159,8 @@ const MainDiv = styled.div`
   }
 
   .card img {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     margin-bottom: 20px;
   }
