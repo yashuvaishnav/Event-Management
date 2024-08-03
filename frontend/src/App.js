@@ -6,14 +6,11 @@ import { Footer } from "./Pages/Footer";
 
 function App() {
   const location = useLocation();
+  const pathArr = ["/adminDashboard","/allEvents","/participants" , "/participated","/dummyHostEvent"]
 
   return (
     <div>
-      {location.pathname === "/adminDashboard" ||
-      location.pathname === "/allEvents" ||
-      location.pathname === "/participants" ||
-      location.pathname === "/participated" ||
-      location.pathname === "/dummyHostEvent" ? (
+      {pathArr.includes(location.pathname) ? (
         <AdminNavbar />
       ) : (
         <Navbar />

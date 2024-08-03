@@ -9,10 +9,10 @@ import {
   createGoogleEvent,
 } from "../Components/Redux/DummyGoogleAuth/action";
 
-export const DummyGoogleCalendar = () => {
-  const [accessTokenTemp, setAccessTokenTemp] = useState("");
-  const [isAuthorized, setIsAuthorized] = useState(false);
-  const [tokenClient, setTokenClient] = useState(null);
+export const DummyGoogleCalendar = ({isAuthorized,gapi,handleSignoutClick,handleAuthClick}) => {
+  // const [accessTokenTemp, setAccessTokenTemp] = useState("");
+  // const [isAuthorized, setIsAuthorized] = useState(false);
+  // const [tokenClient, setTokenClient] = useState(null);
   const [personName, setPersonName] = useState("");
   const [task, setTask] = useState("");
   const [equipment, setEquipment] = useState("");
@@ -35,92 +35,98 @@ export const DummyGoogleCalendar = () => {
   });
   const dispatch = useDispatch();
 
-  const gapi = window.gapi;
-  const google = window.google;
+  // const gapi = window.gapi;
+  // const google = window.google;
 
-  const CLIENT_ID =
-    "643520224272-j46gqdpdct7599l8ss7p2bc0b48jjpa2.apps.googleusercontent.com";
-  const API_KEY = "AIzaSyCA_aNZjpV6CQNDmq4zVv46PldHsfF2Ji0";
-  const DISCOVERY_DOC =
-    "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
-  const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+  // const CLIENT_ID =
+  //   "643520224272-j46gqdpdct7599l8ss7p2bc0b48jjpa2.apps.googleusercontent.com";
+  // const API_KEY = "AIzaSyCA_aNZjpV6CQNDmq4zVv46PldHsfF2Ji0";
+  // const DISCOVERY_DOC =
+  //   "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
+  // const SCOPES = "https://www.googleapis.com/auth/calendar.events";
   
 
-  useEffect(() => {
-    gapiLoaded();
-    gisLoaded();
-  }, []);
+  // useEffect(() => {
+  //   gapiLoaded();
+  //   gisLoaded();
+  // }, []);
 
-  useEffect(() => {
-    const storedAccessToken = localStorage.getItem("access_token");
-    const storedExpiresIn = localStorage.getItem("expires_in");
-    if (storedAccessToken && storedExpiresIn) {
-      setIsAuthorized(true);
-    }
-  }, [accessTokenTemp]);
+  // useEffect(() => {
+  //   const storedAccessToken = localStorage.getItem("access_token");
+  //   const storedExpiresIn = localStorage.getItem("expires_in");
+  //   if (storedAccessToken && storedExpiresIn) {
+  //     gapi?.client?.setToken({ access_token: storedAccessToken });
+  //     setIsAuthorized(true);
+  //   }
+  // }, [accessTokenTemp]);
 
-  function gapiLoaded() {
-    gapi.load("client", initializeGapiClient);
-  }
+  // function gapiLoaded() {
+  //   gapi.load("client", initializeGapiClient);
+  // }
 
-  async function initializeGapiClient() {
-    await gapi.client.init({
-      apiKey: API_KEY,
-      discoveryDocs: [DISCOVERY_DOC],
-    });
-  }
+  // async function initializeGapiClient() {
+  //   await gapi.client.init({
+  //     apiKey: API_KEY,
+  //     discoveryDocs: [DISCOVERY_DOC],
+  //   });
+  // }
 
-  function gisLoaded() {
-    const tokenClientInstance = google.accounts.oauth2.initTokenClient({
-      client_id: CLIENT_ID,
-      scope: SCOPES,
-      callback: handleTokenCallback,
-    });
-    setTokenClient(tokenClientInstance);
-  }
+  // function gisLoaded() {
+  //   const tokenClientInstance = google.accounts.oauth2.initTokenClient({
+  //     client_id: CLIENT_ID,
+  //     scope: SCOPES,
+  //     callback: '',
+  //     // callback: handleTokenCallback,
+  //   });
+  //   console.log('gisLoaded',tokenClientInstance);
+  //   setTokenClient(tokenClientInstance);
+  // }
 
-  function handleTokenCallback(resp) {
-    if (resp.error !== undefined) {
-      throw resp;
-    }
-    const { access_token } = resp;
-    localStorage.setItem("access_token", access_token);
-    setIsAuthorized(true);
-  }
+  // function handleTokenCallback(resp) {
 
-  async function handleAuthClick() {
-    tokenClient.callback = async (resp) => {
-      if (resp.error !== undefined) {
-        throw resp;
-      }
-      const { access_token, expires_in } = gapi.client.getToken();
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("expires_in", expires_in);
-      setAccessTokenTemp(access_token);
-      setIsAuthorized(true);
-    };
+  //   if (resp.error !== undefined) {
+  //     throw resp;
+  //   }
+  //   const { access_token } = resp;
+  //   localStorage.setItem("access_token", access_token);
+  //   setIsAuthorized(true);
+  //   // gapi.client.setToken({ access_token });
+  // }
 
-    const storedAccessToken = localStorage.getItem("access_token");
-    const storedExpiresIn = localStorage.getItem("expires_in");
+  // async function handleAuthClick() {
+  //   tokenClient.callback = async (resp) => {
+  //     if (resp.error !== undefined) {
+  //       throw resp;
+  //     }
+  //     console.log('gisLoaded11',gapi.client.getToken(),resp);
+  //     const { access_token, expires_in } = gapi.client.getToken();
+  //     localStorage.setItem("access_token", access_token);
+  //     localStorage.setItem("expires_in", expires_in);
+  //     setAccessTokenTemp(access_token);
+  //     setIsAuthorized(true);
+  //   };
 
-    if (!(storedAccessToken && storedExpiresIn)) {
-      tokenClient.requestAccessToken({ prompt: "consent" });
-    } else {
-      tokenClient.requestAccessToken({ prompt: "" });
-    }
-  }
+  //   const storedAccessToken = localStorage.getItem("access_token");
+  //   const storedExpiresIn = localStorage.getItem("expires_in");
 
-  function handleSignoutClick() {
-    const storedAccessToken = localStorage.getItem("access_token");
-    if (storedAccessToken) {
-      google.accounts.oauth2.revoke(storedAccessToken, () => {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("expires_in");
-        setAccessTokenTemp("");
-        setIsAuthorized(false);
-      });
-    }
-  }
+  //   if (!(storedAccessToken && storedExpiresIn)) {
+  //     tokenClient.requestAccessToken({ prompt: "consent" });
+  //   } else {
+  //     tokenClient.requestAccessToken({ prompt: "" });
+  //   }
+  // }
+
+  // function handleSignoutClick() {
+  //   const storedAccessToken = localStorage.getItem("access_token");
+  //   if (storedAccessToken) {
+  //     google.accounts.oauth2.revoke(storedAccessToken, () => {
+  //       localStorage.removeItem("access_token");
+  //       localStorage.removeItem("expires_in");
+  //       setAccessTokenTemp("");
+  //       setIsAuthorized(false);
+  //     });
+  //   }
+  // }
 
   const handleAddSupportPerson = () => {
     if (personName.trim() !== "" && task.trim() !== "") {
@@ -200,6 +206,7 @@ export const DummyGoogleCalendar = () => {
       },
       accessToken: localStorage.getItem("access_token"),
     };
+   
     const request = gapi.client.calendar.events.insert({
       calendarId: "primary",
       resource: eventData,
@@ -207,7 +214,7 @@ export const DummyGoogleCalendar = () => {
     });
     request.execute(
       (event) => {
-        console.log(event);
+        console.log("event", event);
         const cleanSupportPerson = eventDetails.supportPerson.filter(
           (person) => person.name && person.task
         );
@@ -218,6 +225,7 @@ export const DummyGoogleCalendar = () => {
           accessToken: localStorage.getItem("access_token"),
           supportPerson: cleanSupportPerson,
         };
+        
         dispatch(createGoogleEvent(obj));
         setEventDetails({
           summary: "",

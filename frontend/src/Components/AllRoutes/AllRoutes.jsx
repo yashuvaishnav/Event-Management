@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import { Route, Routes } from "react-router-dom";
 import { Dashboard } from "../../Pages/Dashboard";
 import { RegistrationForm } from "../../Form/RegistrationForm";
@@ -18,6 +18,115 @@ import { DummyGoogleCalendar } from "../../Pages/DummyGoogleCalendar";
 
 
 export const AllRoutes = () => {
+  const [accessTokenTemp, setAccessTokenTemp] = useState("");
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [tokenClient, setTokenClient] = useState(null);
+
+  const gapi = window.gapi;
+  const google = window.google;
+
+  const CLIENT_ID =
+    "643520224272-j46gqdpdct7599l8ss7p2bc0b48jjpa2.apps.googleusercontent.com";
+  const API_KEY = "AIzaSyCA_aNZjpV6CQNDmq4zVv46PldHsfF2Ji0";
+  const DISCOVERY_DOC =
+    "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
+  const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+
+ 
+  
+  
+  useEffect(() => {
+    gisLoaded();
+  }, []);
+
+  // useEffect(() => {
+  //   tokenCheck();
+  // }, [accessTokenTemp]);
+
+  function tokenCheck () {
+    const storedAccessToken = localStorage.getItem("access_token");
+    const storedExpiresIn = localStorage.getItem("expires_in");
+    console.log('gapi',gapi.client);
+    if (storedAccessToken && storedExpiresIn) {
+      gapi?.client?.setToken({ access_token: storedAccessToken });
+      setIsAuthorized(true);
+    }
+  }
+  function gapiLoaded() {
+    gapi.load("client", initializeGapiClient);
+  }
+
+  async function initializeGapiClient() {
+    await gapi.client.init({
+      apiKey: API_KEY,
+      discoveryDocs: [DISCOVERY_DOC],
+    });
+    console.log('initial-1', gapi.client)
+    tokenCheck();
+  }
+
+  async function gisLoaded() {
+    const tokenClientInstance = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: '',
+      // callback: handleTokenCallback,
+    });
+    gapiLoaded()
+    console.log('initial-2', gapi.client)
+    console.log('gisLoaded',tokenClientInstance);
+    tokenCheck()
+    setTokenClient(tokenClientInstance);
+  }
+
+  function handleTokenCallback(resp) {
+
+    if (resp.error !== undefined) {
+      throw resp;
+    }
+    const { access_token } = resp;
+    localStorage.setItem("access_token", access_token);
+    setIsAuthorized(true);
+    // gapi.client.setToken({ access_token });
+  }
+
+  async function handleAuthClick() {
+    tokenClient.callback = async (resp) => {
+      if (resp.error !== undefined) {
+        throw resp;
+      }
+      console.log('gisLoaded11',gapi.client.getToken());
+      console.log('resp',resp);
+
+      const { access_token, expires_in } = gapi.client.getToken();
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("expires_in", expires_in);
+      setAccessTokenTemp(access_token);
+      setIsAuthorized(true);
+    };
+
+    const storedAccessToken = localStorage.getItem("access_token");
+    const storedExpiresIn = localStorage.getItem("expires_in");
+
+    if (!(storedAccessToken && storedExpiresIn)) {
+      tokenClient.requestAccessToken({ prompt: "consent" });
+    } else {
+      tokenClient.requestAccessToken({ prompt: "" });
+    }
+  }
+
+  function handleSignoutClick() {
+    const storedAccessToken = localStorage.getItem("access_token");
+    if (storedAccessToken) {
+      google.accounts.oauth2.revoke(storedAccessToken, () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("expires_in");
+        setAccessTokenTemp("");
+        setIsAuthorized(false);
+      });
+    }
+  }
+
   return (
     <Routes>
       {/* Routes */}
@@ -33,7 +142,7 @@ export const AllRoutes = () => {
       <Route path="/allEvents" element={<PrivateRoute><AllEvents /></PrivateRoute>} />
       <Route path="/participants" element={<PrivateRoute><ClientParticipants /></PrivateRoute>}/>
       <Route path="/participated" element={<PrivateRoute><Participated /></PrivateRoute>} />
-      <Route path="/dummyHostEvent" element={<PrivateRoute><DummyGoogleCalendar /></PrivateRoute>} />
+      <Route path="/dummyHostEvent" element={<PrivateRoute><DummyGoogleCalendar handleAuthClick={handleAuthClick} handleSignoutClick={handleSignoutClick} isAuthorized={isAuthorized} gapi={gapi} /></PrivateRoute>} />
 
       {/* forms */}
       <Route path="/eventRegistrationForm" element={<EventRegistrationForm />}/>
