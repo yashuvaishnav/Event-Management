@@ -11,7 +11,11 @@ const { mailRouter } = require("./Mail/gmail");
 const { clientForEventRouter } = require("./Routes/clientForEventsRouter");
 const { googleRouter } = require("./Routes/googleEventRouter");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 app.use("/admin", adminRouter);
 app.use("/events", eventRouter);
@@ -31,6 +35,7 @@ app.listen(8080, async () => {
     await connection;
     console.log("server is running at port 8080");
   } catch (err) {
+    console.log("err", err);
     console.log("server error");
   }
 });

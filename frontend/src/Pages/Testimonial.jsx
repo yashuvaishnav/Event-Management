@@ -52,6 +52,8 @@ export const Testimonial = () => {
     );
   };
 
+  console.log("letestData", letestData);
+
   return (
     <MainDiv>
       <div className="bodyDiv">
