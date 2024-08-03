@@ -1,7 +1,4 @@
-
 import React, { useEffect, useState } from "react";
-import { TbLogout } from "react-icons/tb";
-import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -11,10 +8,16 @@ import {
 } from "../Components/Toast/Toastify";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getAdminData, Logout } from "../Components/Redux/Admin/action";
-import { Loader } from "../Components/Loader/Loading";
-
+import { MdLogout, MdDashboard } from "react-icons/md";
+import { Menu, MenuItem, Avatar, Button } from "@mui/material";
+import { MdEvent } from "react-icons/md";
+import { MdEventAvailable } from "react-icons/md";
+import { FaUserTie } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 
 export const AdminNavbar = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const { adminData, isLoading } = useSelector((store) => {
@@ -35,21 +38,32 @@ export const AdminNavbar = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
   const handleLogout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("event");
     dispatch(Logout(showSuccessToast, showErrorToast, navigate));
   };
 
+  const handleClickMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+  const handleClickDashMenu = (event) => {
+    setOpen(event.currentTarget);
+  };
+
+  const handleCloseDashMenu = () => {
+    setOpen(null);
+  };
+
   return (
     <Navbar>
       <Toastify />
       <div className="logoAndSections">
-        <div className="logodiv" onClick={() => navigate("/")}>
+        <div onClick={() => navigate("/")}>
           <img
             src={
               "https://ceoitbox.com/wp-content/uploads/2022/04/logo.png.webp"
@@ -58,63 +72,99 @@ export const AdminNavbar = () => {
             alt="logo"
           />
         </div>
+
         <div className="profileAndLogoutBtn">
-          <div className="profileContainer">
-            <div className="profilePicture">
-              <img
-                src={
-                  "https://th.bing.com/th/id/OIP.CMQW9r9kxtUEDvQTZ6tZPAHaHa?w=667&h=667&rs=1&pid=ImgDetMain"
-                }
-                alt="Profile"
-              />
-            </div>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <div className="userInfo">
-                <h1 className="userName">{adminData.name}</h1>
-                <p className="userEmail">{adminData.email}</p>
-                <div className="dropdownButton" onClick={toggleDropdown}>
-                  {dropdownOpen ? (
-                    <TiArrowSortedUp
-                      style={{ fontSize: "30px", margin: "auto", width: "20%" }}
-                    />
-                  ) : (
-                    <TiArrowSortedDown
-                      style={{ fontSize: "30px", margin: "auto", width: "20%" }}
-                    />
-                  )}
-                </div>
-                {dropdownOpen && (
-                  <div className="dropdownMenu">
-                    <button onClick={() => handleClick("/adminDashboard")}>
-                      DASHBOARD
-                    </button>
-                    <button onClick={() => handleClick("/allEvents")}>
-                      ALL EVENTS
-                    </button>
-                    <button onClick={() => handleClick("/participants")}>
-                      PARTICIPANTS
-                    </button>
-                    <button onClick={() => handleClick("/participated")}>
-                      PARTICIPATED
-                    </button>
-                    <button onClick={() => handleClick("/dummyHostEvent")}>
-                      HOST EVENT
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-          <div className="logoutLogo" onClick={handleLogout}>
-            <TbLogout
-              style={{
-                background: "none",
-                color: "#2678ec",
-                fontSize: "50px",
+          <div>
+            <Button
+              onClick={handleClickDashMenu}
+              startIcon={<MdDashboard size={18} />}
+            >
+              Dashboard
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={open}
+              keepMounted
+              open={Boolean(open)}
+              onClose={handleCloseDashMenu}
+              sx={{
+                "& .MuiPaper-root": {
+                  borderRadius: "19px",
+                  padding: "10px 10px",
+                  border: "1px solid rgba(183, 175, 208, 0.16)",
+                  boxShadow: "27px 10px 74px 0px rgba(167, 175, 193, 0.26)",
+                },
               }}
+            >
+              <MenuItem
+                sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                onClick={() => handleClick("/adminDashboard")}
+              >
+                <MdDashboard /> Dashboard
+              </MenuItem>
+              <MenuItem
+                sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                onClick={() => handleClick("/allEvents")}
+              >
+                <MdEvent /> All Events
+              </MenuItem>
+              <MenuItem
+                sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                onClick={() => handleClick("/participants")}
+              >
+                <FaUserTie /> Participants
+              </MenuItem>
+              <MenuItem
+                sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                onClick={() => handleClick("/participated")}
+              >
+                <FaUsers /> Participated
+              </MenuItem>
+              <MenuItem
+                sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                onClick={() => handleClick("/dummyHostEvent")}
+              >
+                <MdEventAvailable /> Host Event
+              </MenuItem>
+            </Menu>
+          </div>
+
+          <div>
+            <Avatar
+              onClick={handleClickMenu}
+              sx={{ cursor: "pointer", width: "30px", height: "30px" }}
             />
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}
+              sx={{
+                "& .MuiPaper-root": {
+                  borderRadius: "19px",
+                  padding: "10px 10px",
+                  border: "1px solid rgba(183, 175, 208, 0.16)",
+                  boxShadow: "27px 10px 74px 0px rgba(167, 175, 193, 0.26)",
+                },
+              }}
+            >
+              <MenuItem>{adminData.name}</MenuItem>{" "}
+              <MenuItem>{adminData.email}</MenuItem>{" "}
+              <MenuItem
+                sx={{
+                  fontWeight: 500,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  fontSize: "18px",
+                }}
+                onClick={handleLogout}
+              >
+                <MdLogout size={18} style={{ color: "#00bce0" }} />
+                Logout
+              </MenuItem>
+            </Menu>
           </div>
         </div>
       </div>
@@ -123,104 +173,22 @@ export const AdminNavbar = () => {
 };
 
 const Navbar = styled.div`
-  box-sizing: border-box;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  padding: 10px;
-  /* border: 1px solid black; */
+  padding: 5px 20px;
   .logoAndSections {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* border : 2px solid black; */
-    width: 75%;
-    margin: auto;
-    .logodiv {
-      width: 10%;
-      /* border : 2px solid red; */
-      display: flex;
-      align-items: center;
-      /* padding: 10px; */
-      img {
-        width: 60%;
-        &:hover {
-          cursor: pointer;
-        }
-      }
-    }
+    width: 100%;
+  }
+  .App-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
   }
   .profileAndLogoutBtn {
     display: flex;
-    justify-content: space-evenly;
+    gap: 20px;
     align-items: center;
-    /* padding: 10px; */
-    width: 35%;
-    .profileContainer {
-      width: 70%;
-      /* border: 1px solid black; */
-      display: flex;
-      /* justify-content: space-evenly; */
-      align-items: center;
-      .profilePicture img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin: 0px 10px 20px 0px;
-      }
-      .userInfo {
-        /* border: 1px solid black; */
-        display: flex;
-        flex-direction: column;
-        text-align: start;
-        p,
-        h1 {
-          margin: 0px;
-          padding: 0px;
-          line-height: 1.5;
-        }
-        .dropdownButton {
-          display: flex;
-          align-items: center;
-          &:hover {
-            cursor: pointer;
-          }
-        }
-      }
-    }
-    .logoutLogo {
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-
-  .dropdownMenu {
-    position: absolute;
-    top: 12%;
-    left: 66%;
-    background: linear-gradient(to bottom, #5ebed8, #2678ec);
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    z-index: 1;
-    width: 12.5%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    padding: 10px 0px;
-    button {
-      padding: 10px;
-      width: 80%;
-      margin: 10px;
-      background-color: #ffff;
-      border: none;
-      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-      cursor: pointer;
-      border-radius: 5px;
-      color: #1a1a56;
-      font-weight: bold;
-      font-size: 18px;
-      &:hover {
-        background: linear-gradient(to bottom, #5ebed8, #82c9f3);
-      }
-    }
   }
 `;
