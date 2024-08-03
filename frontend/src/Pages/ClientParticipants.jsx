@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SiGmail } from "react-icons/si";
@@ -54,7 +53,6 @@ export const ClientParticipants = () => {
   );
 
   const sendMail = async (client) => {
-
     const clientDataEmail = client.email;
     const eventId = googleEventsData.key;
     const eventNormalId = googleEventsData._id;
@@ -81,41 +79,66 @@ export const ClientParticipants = () => {
       console.log("Invitation sent to", clientDataEmail);
       showSuccessToast("Invitation sent successfully");
 
-      const localEventResponse = await axios.get(`http://localhost:8080/calender/${eventNormalId}`);
+      const localEventResponse = await axios.get(
+        `http://localhost:8080/calender/${eventNormalId}`
+      );
       const localEventData = localEventResponse.data;
 
       const updatedEventData = {
         ...localEventData,
         attendees: [
           ...(localEventData.attendees || []),
-          { email: clientDataEmail, responseStatus: "needsAction", attendance: false }
-        ]
+          {
+            email: clientDataEmail,
+            responseStatus: "needsAction",
+            attendance: false,
+          },
+        ],
       };
-      dispatch(patchAttendees(eventNormalId,updatedEventData))
-
+      dispatch(patchAttendees(eventNormalId, updatedEventData));
     } catch (error) {
       console.error("Error sending invitation or updating event", error);
       showErrorToast("Error sending invitation or updating event");
     }
   };
 
+  const handleReset = () => {
+    setSearchQuery("");
+  };
+
   return (
     <MainDiv>
       <Toastify />
       <div className="clientDataAndPagination">
-        <div className="heading">
-          <p>FOR EVENTS</p>
-          <h1>PARTICIPANTS</h1>
+        <div
+          style={{
+            display: "flex",
+            width: "80%",
+            alignItems: "center",
+            justifyContent: "space-between",
+            margin: "auto",
+            padding: "5px 0px",
+          }}
+        >
+          <p
+            style={{ fontSize: "1.5rem", fontWeight: "500", color: "#868686" }}
+          >
+            {" "}
+            For Events Participants{" "}
+          </p>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+            <input
+              type="text"
+              id="searchClient"
+              placeholder="Search by email"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button onClick={handleReset}>Reset</button>
+          </div>
         </div>
-        <div className="searchClient">
-          <input
-            type="text"
-            id="searchClient"
-            placeholder="Search Client"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+
         <div className="table-container">
           {isLoading ? (
             <Loader />
@@ -128,7 +151,7 @@ export const ClientParticipants = () => {
                   <th>Company Name</th>
                   <th>Email</th>
                   <th>Contact</th>
-                  <th>Send Mail</th>
+                  <th>Send Email</th>
                 </tr>
               </thead>
               <tbody>
@@ -185,6 +208,7 @@ const MainDiv = styled.div`
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+
     p {
       line-height: 1.2;
       margin: 0;
@@ -213,7 +237,7 @@ const MainDiv = styled.div`
     }
   }
   .client-table {
-    width: 60%;
+    width: 80%;
     margin: auto;
     border-collapse: separate;
     border-spacing: 0 0px; // Adds space between rows
@@ -223,18 +247,22 @@ const MainDiv = styled.div`
 
   .client-table thead tr {
     font-weight: bold;
-    font-size: 22px;
+    font-size: 16px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   }
   .client-table tbody tr {
     font-weight: 400;
-    font-size: 18px;
+    font-size: 15px;
     color: black;
     &:hover {
       background-color: #a1bee0;
       /* cursor: pointer; */
     }
-    .send-mail{
+    td,
+    th {
+      padding: 5px;
+    }
+    .send-mail {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -285,25 +313,6 @@ const PaginationContainer = styled.div`
     font-size: 18px;
   }
 `;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useEffect, useState } from "react";
 // import styled from "styled-components";
