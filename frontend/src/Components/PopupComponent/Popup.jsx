@@ -94,7 +94,6 @@ const MainDiv = styled.div`
   }
 
   .popup {
-    
     background: white;
     padding: 20px;
     border-radius: 10px;
