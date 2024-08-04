@@ -43,7 +43,7 @@ export const postLoginData = (adminLogin, showErrorToast, showSuccessToast, navi
       showSuccessToast(res.data.msg);
       localStorage.setItem('token', res.data.token);
       setTimeout(() => {
-        navigate("/");
+        navigate("/adminDashboard");
       }, 2000);
     })
     .catch((err) => {

@@ -32,9 +32,6 @@ export const AllRoutes = () => {
     "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
   const SCOPES = "https://www.googleapis.com/auth/calendar.events";
 
- 
-  
-  
   useEffect(() => {
     gisLoaded();
   }, []);
@@ -79,16 +76,16 @@ export const AllRoutes = () => {
     setTokenClient(tokenClientInstance);
   }
 
-  function handleTokenCallback(resp) {
+  // function handleTokenCallback(resp) {
 
-    if (resp.error !== undefined) {
-      throw resp;
-    }
-    const { access_token } = resp;
-    localStorage.setItem("access_token", access_token);
-    setIsAuthorized(true);
-    // gapi.client.setToken({ access_token });
-  }
+  //   if (resp.error !== undefined) {
+  //     throw resp;
+  //   }
+  //   const { access_token } = resp;
+  //   localStorage.setItem("access_token", access_token);
+  //   setIsAuthorized(true);
+  //   // gapi.client.setToken({ access_token });
+  // }
 
   async function handleAuthClick() {
     tokenClient.callback = async (resp) => {
@@ -138,11 +135,11 @@ export const AllRoutes = () => {
       <Route path="/signup" element={<Signup />} />
 
       {/* private routes */}
-      <Route path="/adminDashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>
+      <Route path="/adminDashboard" element={<PrivateRoute><Dashboard handleAuthClick={handleAuthClick} handleSignoutClick={handleSignoutClick} isAuthorized={isAuthorized} /></PrivateRoute>}/>
       <Route path="/allEvents" element={<PrivateRoute><AllEvents /></PrivateRoute>} />
       <Route path="/participants" element={<PrivateRoute><ClientParticipants /></PrivateRoute>}/>
       <Route path="/participated" element={<PrivateRoute><Participated /></PrivateRoute>} />
-      <Route path="/dummyHostEvent" element={<PrivateRoute><DummyGoogleCalendar handleAuthClick={handleAuthClick} handleSignoutClick={handleSignoutClick} isAuthorized={isAuthorized} gapi={gapi} /></PrivateRoute>} />
+      <Route path="/dummyHostEvent" element={<PrivateRoute><DummyGoogleCalendar gapi={gapi} /></PrivateRoute>} />
 
       {/* forms */}
       <Route path="/eventRegistrationForm" element={<EventRegistrationForm />}/>

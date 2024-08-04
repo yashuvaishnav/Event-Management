@@ -73,9 +73,10 @@ const MainDiv = styled.div`
       font-weight: 500;
     }
     h1 {
-      font-size: 35px;
-      color: #222;
-      margin-bottom: 50px;
+      font-size: 30px;
+      font-weight: 500;
+      color: #444141;
+      margin-bottom: 30px;
       line-height: 0.2;
     }
   }

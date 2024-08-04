@@ -135,8 +135,6 @@ const MainDiv = styled.div`
     align-items: center;
     text-align: center;
 
-    /* border: 1px solid black; */
-
     span {
       font-weight: bolder;
       margin: 0;

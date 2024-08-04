@@ -183,19 +183,17 @@ export const Contact = () => {
 const MainDiv = styled.div`
   .heading {
     text-align: center;
-    margin: 50px 0 20px 0px;
     h3 {
-      margin: 0;
-      padding: 0;
-      line-height: 1;
+      font-size: 20px;
       color: #4b4a4a;
       font-weight: 500;
     }
     h1 {
-      margin: 0;
-      padding: 0;
-      line-height: 1.5;
-      font-size: 40px;
+      font-size: 30px;
+      font-weight: 500;
+      color: #444141;
+      margin-bottom: 30px;
+      line-height: 0.2;
     }
   }
   .formAndImageDiv {
@@ -260,7 +258,7 @@ const MainDiv = styled.div`
   .formDiv input,
   .formDiv textarea {
     width: 90%;
-    padding: 20px;
+    padding: 18px;
     margin-bottom: 10px;
     border: 2px solid #ccc;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

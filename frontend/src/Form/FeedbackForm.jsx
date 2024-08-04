@@ -123,30 +123,27 @@ export const FeedbackForm = () => {
 };
 
 const MainDiv = styled.div`
-  /* position: relative; */
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   background: linear-gradient(40deg, #fff 50%, #1e90ff 50%);
-  /* background-size: 100% 100%; */
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   .logoNameAndFormDiv {
-    h1 {
-      text-align: center;
-    }
     background-color: #f0eeeecc;
     width: 25%;
-    margin: 20px auto;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    h1 {
+      text-align: center;
+      margin: 10px;
+    }
   }
   .logoAndName {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
 
     img {
       height: 50px;
@@ -157,11 +154,12 @@ const MainDiv = styled.div`
       font-size: 24px;
       font-weight: bold;
       color: #333;
+      margin: 0px;
     }
   }
 
   .formDiv {
-    padding: 20px;
+    padding: 0px 20px;
     border-radius: 8px;
     .submitBtn {
       padding: 10px 20px;
@@ -175,7 +173,7 @@ const MainDiv = styled.div`
       cursor: pointer;
     }
   }
-  @media (max-width: 1900px) {
+  /* @media (max-width: 1900px) {
     .logoNameAndFormDiv {
       width: 35%;
     }
@@ -195,7 +193,7 @@ const MainDiv = styled.div`
     .logoNameAndFormDiv {
       width: 100%;
     }
-  }
+  } */
 `;
 
 const FormGroup = styled.div`

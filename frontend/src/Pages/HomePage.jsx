@@ -15,11 +15,14 @@ export const HomePage = () => {
       googleEventsData: store.googleEventReducer.googleEventsData,
     };
   }, shallowEqual);
-  console.log(googleEventsData);
 
   useEffect(() => {
     dispatch(fetchGoogleEventsData());
   }, []);
+
+  const handleNavigate = () => {
+    navigate("/registrationForm")
+  }
 
   return (
     <MainDiv>
@@ -69,7 +72,7 @@ export const HomePage = () => {
                       <p>Date : {item.start}</p>
                       <p>Venue : {item.location}</p>
                       <p>organizedBy : {item.keynoteSpeaker}</p>
-                      <button className="registrationForm">Registration</button>
+                      <button className="registrationForm" onClick={handleNavigate}>Registration</button>
                     </div>
                   ))
                 ) : (
@@ -88,17 +91,13 @@ export const HomePage = () => {
 const MainDiv = styled.div`
   box-sizing: border-box;
   .celebrationDiv {
-    /* border: 1px solid black; */
     padding: 10px;
     width: 85%;
     margin: 70px auto;
     display: flex;
     justify-content: space-evenly;
     gap: 100px;
-    // align-items: center;
     .celebrateDescribe {
-      // padding: 10px;
-      // text-align: center;
       width: 50%;
       h1 {
         font-size: 40px;
@@ -123,12 +122,10 @@ const MainDiv = styled.div`
       width: 50%;
       display: flex;
       justify-content: center;
-      // align-items: center;
     }
   }
 `;
 const LatestEvents = styled.div`
-  /* border: 2px solid black; */
   margin: 50px 0px 50px 0px;
 
   .latestEvents {
@@ -152,7 +149,6 @@ const LatestEvents = styled.div`
     display: flex;
     justify-content: space-evenly;
     box-sizing: border-box;
-    /* border: 1px solid black; */
   }
   .card-description {
     text-align: center;

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Popup } from "../Components/PopupComponent/Popup";
 import { Loader } from "../Components/Loader/Loading";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { fetchEventsData } from "../Components/Redux/Events/action";
 import {
   deleteGoogleEvent,
   fetchGoogleEventsData,
@@ -17,19 +16,13 @@ export const AllEvents = () => {
   const dispatch = useDispatch();
   const gapi = window.gapi;
 
-  const { isLoading } = useSelector((store) => {
-    return {
-      isLoading: store.eventReducer.isLoading,
-    };
-  }, shallowEqual);
-  const { googleEventsData } = useSelector((store) => {
+  const { googleEventsData,isLoading } = useSelector((store) => {
     return {
       googleEventsData: store.googleEventReducer.googleEventsData,
     };
   }, shallowEqual);
 
   useEffect(() => {
-    dispatch(fetchEventsData());
     dispatch(fetchGoogleEventsData());
   }, []);
 
@@ -52,7 +45,6 @@ export const AllEvents = () => {
   };
 
   const confirmDeleteEvent = () => {
-    console.log(selectedEvent.key,selectedEvent._id);
     const request = gapi.client.calendar.events.delete({
       calendarId: "primary",
       eventId: selectedEvent.key,
@@ -61,7 +53,6 @@ export const AllEvents = () => {
 
     request.execute(
       (response) => {
-        console.log("Event deleted:", response);
         dispatch(deleteGoogleEvent(selectedEvent._id));
         setSelectedEvent(null);
         toggleConfirm();
@@ -72,37 +63,18 @@ export const AllEvents = () => {
     );
   };
 
-  // const handleDeleteEvent = (event) => {
-  //   const request = gapi.client.calendar.events.delete({
-  //     calendarId: "primary",
-  //     eventId: event.key,
-  //     sendUpdates: "all",
-  //   });
-
-  //   request.execute(
-  //     (response) => {
-  //       console.log("Event deleted:", response);
-  //       dispatch(deleteGoogleEvent(event._id));
-  //     },
-  //     (error) => {
-  //       console.error("Error deleting event:", error);
-  //     }
-  //   );
-  // };
 
   return (
     <MainDiv>
       <div className="allEventsData">
         <div className="allEvents">
-          <p>ALL UPCOMING</p>
-          <h1>EVENTS</h1>
+          <p>All Upcoming Events</p>
         </div>
         {isLoading ? (
           <Loader />
         ) : (
           <div className="cardsContainer">
-            {googleEventsData.length > 0 ? (
-              googleEventsData.length > 0 &&
+              {googleEventsData.length > 0 &&
               googleEventsData.map((event, i) => (
                 <Card key={i} $imageurl={event.imageUrl}>
                   <div className="content" key={i}>
@@ -126,11 +98,10 @@ export const AllEvents = () => {
                   </div>
                 </Card>
               ))
-            ) : (
-              <h1>No Events Available</h1>
-            )}
+            }
           </div>
         )}
+        {!googleEventsData.length > 0 && <div className="noDataAvailable"><h1>No Events Available</h1></div> }
         {isPopupVisible && selectedEvent && (
           <Popup
             show={isPopupVisible}
@@ -158,26 +129,27 @@ export const AllEvents = () => {
   );
 };
 
+
 const MainDiv = styled.div`
   height: auto;
   .allEvents {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 0px;
+    width: 80%;
+    margin: auto;
+    padding: "5px 0px";
     p {
-      line-height: 1.2;
-      margin: 0;
-      padding: 0;
-      font-size: 18px;
-      font-weight: 400;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #868686 ;
     }
-    h1 {
-      font-size: 35px;
-      margin: 0;
-      padding: 0;
-      line-height: 1.2;
-    }
+  }
+  .noDataAvailable{
+    width: 100%;
+    height: 50vh;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .cardsContainer {
     width: 80%;
@@ -293,16 +265,3 @@ const Card = styled.div`
     }
   }
 `;
-
-// const transformImageUrl = (url) => {
-//   const googleDriveRegex = /^https:\/\/drive\.google\.com\/file\/d\/([^/]+)\/view\?usp=sharing$/;
-//   const match = url.match(googleDriveRegex);
-//   if (match) {
-//     const fileId = match[1];
-//     console.log("fileId",`https://drive.google.com/uc?export=view&id=${fileId}`);
-//     return `https://drive.google.com/uc?export=view&id=${fileId}`;
-//   }
-//   // console.log("url",url)
-
-//   return url;
-// };

@@ -55,10 +55,11 @@ export const createGoogleEvent = (obj) => () => {
     });
 };
 
-export const deleteGoogleEvent = (eventId) => () => {
-  axios
+export const deleteGoogleEvent = (eventId) => async() => {
+ await axios
     .delete(`http://localhost:8080/calender/delete/${eventId}`)
     .then((res) => {
+      console.log("res",res);
       showSuccessToast("Event Deleted successfully");
     })
     .catch((err) => {

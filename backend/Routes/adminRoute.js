@@ -72,7 +72,6 @@ adminRouter.post("/login",async(req,res)=>{
 
 // logout
 adminRouter.post("/logout",async(req,res)=>{
-    // console.log(req.body.logoutToken)
     try {
         res.status(200).send({"msg":"Logged out Successfully"})
     } 

@@ -52,53 +52,59 @@ export const Testimonial = () => {
     );
   };
 
-  console.log("letestData", letestData);
-
   return (
     <MainDiv>
       <div className="bodyDiv">
         <div className="heading">
           <h3>WHAT CUSTOMERS SAY</h3>
-          <h1>RECENT SUGGESSIONS</h1>
+          <h1>RECENT TESTIMONIAL</h1>
         </div>
         {isLoading ? (
           <Loader />
         ) : (
           <div className="testimonialsDiv">
-            {letestData.length > 0 ? <><div
-              className="slider"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-            >
-              {letestData.map((suggestion, index) => (
+            {letestData.length > 0 ? (
+              <>
                 <div
-                  className={`card ${index === currentIndex ? "visible" : ""}`}
-                  key={index}
+                  className="slider"
+                  style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                 >
-                  <img src={avatars[index]} alt={"avtars"} />
-                  <h1>{suggestion.clientName}</h1>
-                  <h3>{suggestion.companyName}</h3>
-                  <h3>{suggestion.toolName}</h3>
-                  <p>{suggestion.suggestion}</p>
+                  {letestData.map((suggestion, index) => (
+                    <div
+                      className={`card ${
+                        index === currentIndex ? "visible" : ""
+                      }`}
+                      key={index}
+                    >
+                      <img src={avatars[index]} alt={"avtars"} />
+                      <h1>{suggestion.clientName}</h1>
+                      <h3>{suggestion.companyName}</h3>
+                      <h3>{suggestion.toolName}</h3>
+                      <p>{suggestion.suggestion}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <div className="navigation">
-              <button onClick={goToPrevious}>
-                <IoIosArrowBack />
-              </button>
-              <button onClick={goToNext}>
-                <IoIosArrowForward />
-              </button>
-            </div>
-            <div className="pagination">
-              {letestData.map((_, index) => (
-                <div
-                  key={index}
-                  className={index === currentIndex ? "active" : ""}
-                  onClick={() => setCurrentIndex(index)}
-                ></div>
-              ))}
-            </div></> : <h1>No Data Available</h1>}
+                <div className="navigation">
+                  <button onClick={goToPrevious}>
+                    <IoIosArrowBack />
+                  </button>
+                  <button onClick={goToNext}>
+                    <IoIosArrowForward />
+                  </button>
+                </div>
+                <div className="pagination">
+                  {letestData.map((_, index) => (
+                    <div
+                      key={index}
+                      className={index === currentIndex ? "active" : ""}
+                      onClick={() => setCurrentIndex(index)}
+                    ></div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <h1>No Data Available</h1>
+            )}
           </div>
         )}
       </div>
@@ -110,12 +116,9 @@ export const Testimonial = () => {
 const MainDiv = styled.div`
   .bodyDiv {
     width: 100%;
-    overflow: hidden;
-    padding: 20px;
     text-align: center;
-    margin-bottom: 50px;
+    margin: 30px 0px;
   }
-
   .heading {
     h3 {
       font-size: 18px;
@@ -124,7 +127,8 @@ const MainDiv = styled.div`
     }
     h1 {
       font-size: 30px;
-      color: #222;
+      font-weight: 500;
+      color: #444141;
       margin-bottom: 40px;
       line-height: 0.2;
     }
@@ -132,7 +136,7 @@ const MainDiv = styled.div`
 
   .testimonialsDiv {
     position: relative;
-    width: 70%;
+    width: 80%;
     margin: 0 auto;
     overflow: hidden;
   }
@@ -230,6 +234,3 @@ const MainDiv = styled.div`
     background: #333;
   }
 `;
-
-
-

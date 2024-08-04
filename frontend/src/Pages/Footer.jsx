@@ -1,4 +1,3 @@
-
 import React from "react";
 import "../Style/footer.css";
 import { Box, IconButton, Typography } from "@mui/material";
@@ -66,11 +65,6 @@ export const Footer = () => {
                     sx={{
                       p: "5px",
                       color: "#fff",
-                      // color: "#2678ec",
-                      // "&:hover": {
-                      //   background: "#2678ec",
-                      //   color: "#fff",
-                      // },
                     }}
                   >
                     <InstagramIcon />
@@ -86,11 +80,6 @@ export const Footer = () => {
                     sx={{
                       p: "5px",
                       color: "#fff",
-                      // color: "#2678ec",
-                      // "&:hover": {
-                      //   background: "#2678ec",
-                      //   color: "#fff",
-                      // },
                     }}
                   >
                     <YouTubeIcon />
@@ -106,11 +95,6 @@ export const Footer = () => {
                     sx={{
                       p: "5px",
                       color: "#fff",
-                      // color: "#2678ec",
-                      // "&:hover": {
-                      //   background: "#2678ec",
-                      //   color: "#fff",
-                      // },
                     }}
                   >
                     <FacebookOutlinedIcon />
@@ -126,11 +110,6 @@ export const Footer = () => {
                     sx={{
                       p: "5px",
                       color: "#fff",
-                      // color: "#2678ec",
-                      // "&:hover": {
-                      //   background: "#2678ec",
-                      //   color: "#fff",
-                      // },
                     }}
                   >
                     <LinkedInIcon />
@@ -219,13 +198,7 @@ export const Footer = () => {
                     },
                   }}
                 >
-                  {/* <a
-                    href="https://ceoitbox.com/"
-                    style={{ color: "inherit", textDecoration: "none" }}
-                    target="_blank"
-                  > */}{" "}
                   Home
-                  {/* </a> */}
                 </Typography>
                 <Typography
                   sx={{
@@ -248,10 +221,6 @@ export const Footer = () => {
                   Testimonial
                   {/* </a> */}
                 </Typography>
-                {/* <a
-                  style={{ textDecoration: "none", color: "inherit" }}
-                  href="#features"
-                > */}
                 <Typography
                   sx={{
                     color: "#fff",
@@ -267,11 +236,6 @@ export const Footer = () => {
                 >
                   Services
                 </Typography>
-                {/* </a> */}
-                {/* <a
-                  style={{ textDecoration: "none", color: "inherit" }}
-                  href="#faqs"
-                > */}
                 <Typography
                   sx={{
                     color: "#fff",
@@ -287,7 +251,6 @@ export const Footer = () => {
                 >
                   Contact Us
                 </Typography>
-                {/* </a> */}
               </Box>
             </Box>
           </Box>
