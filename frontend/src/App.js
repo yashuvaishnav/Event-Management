@@ -6,26 +6,23 @@ import { Footer } from "./Pages/Footer";
 
 function App() {
   const location = useLocation();
-  const pathArr = ["/adminDashboard","/allEvents","/participants" , "/participated","/dummyHostEvent"]
+  const pathArr = [
+    "/adminDashboard",
+    "/allEvents",
+    "/participants",
+    "/participated",
+    "/dummyHostEvent",
+  ];
 
   return (
     <div>
-      {pathArr.includes(location.pathname) ? (
-        <AdminNavbar />
-      ) : (
-        <Navbar />
-      )}
+      {pathArr.includes(location.pathname) ? <AdminNavbar /> : <Navbar />}
       <AllRoutes />
-      {location.pathname !== "/adminDashboard" ||
-        location.pathname !== "/allEvents" ||
-        location.pathname !== "/participants" ||
-        location.pathname !== "/participated" ||
-        (location.pathname !== "/dummyHostEvent" && <Footer />)}
+      {!pathArr.includes(location.pathname) && <Footer />}
     </div>
   );
 }
 
 export default App;
-
 
 // "mongodb://localhost:27017/event-management"

@@ -1,11 +1,13 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Toastify, showErrorToast, showSuccessToast } from "../Components/Toast/Toastify";
+import {
+  Toastify,
+  showErrorToast,
+  showSuccessToast,
+} from "../Components/Toast/Toastify";
 import { useDispatch } from "react-redux";
 import { postLoginData } from "../Components/Redux/Admin/action";
-
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -24,12 +26,7 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(
-      postLoginData(
-        adminLogin,
-        showErrorToast,
-        showSuccessToast,
-        navigate
-      )
+      postLoginData(adminLogin, showErrorToast, showSuccessToast, navigate)
     );
   };
 
@@ -114,6 +111,7 @@ const MainDiv = styled.div`
     border-radius: 8px;
   }
   .formDiv input::placeholder {
+    font-size: 15px;
     color: #ffff;
     font-weight: 500;
   }

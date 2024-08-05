@@ -1,7 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Toastify, showErrorToast, showSuccessToast } from "../Components/Toast/Toastify";
+import {
+  Toastify,
+  showErrorToast,
+  showSuccessToast,
+} from "../Components/Toast/Toastify";
 
 export const EventRegistrationForm = () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -64,7 +68,7 @@ export const EventRegistrationForm = () => {
       });
     } catch (error) {
       console.log(error);
-      showErrorToast("Not Registered Event")
+      showErrorToast("Not Registered Event");
     }
   };
 
@@ -87,7 +91,9 @@ export const EventRegistrationForm = () => {
           </div>
           <form action="" onSubmit={handleFormData}>
             <FormGroup>
-              <label htmlFor="name">Name<span>*</span></label>
+              <label htmlFor="name">
+                Name<span>*</span>
+              </label>
               <input
                 type="text"
                 name="name"
@@ -97,7 +103,9 @@ export const EventRegistrationForm = () => {
               />
             </FormGroup>
             <FormGroup>
-              <label htmlFor="companyName">Company Name<span>*</span></label>
+              <label htmlFor="companyName">
+                Company Name<span>*</span>
+              </label>
               <input
                 type="text"
                 name="companyName"
@@ -107,7 +115,9 @@ export const EventRegistrationForm = () => {
               />
             </FormGroup>
             <FormGroup>
-              <label htmlFor="contact">Contact<span>*</span></label>
+              <label htmlFor="contact">
+                Contact<span>*</span>
+              </label>
               <input
                 type="number"
                 name="contact"
@@ -117,7 +127,9 @@ export const EventRegistrationForm = () => {
               />
             </FormGroup>
             <FormGroup>
-              <label htmlFor="email">Email<span>*</span></label>
+              <label htmlFor="email">
+                Email<span>*</span>
+              </label>
               <input
                 type="email"
                 name="email"
@@ -127,7 +139,9 @@ export const EventRegistrationForm = () => {
               />
             </FormGroup>
             <FormGroup>
-              <label htmlFor="companySize">Company Size<span>*</span></label>
+              <label htmlFor="companySize">
+                Company Size<span>*</span>
+              </label>
               <input
                 type="number"
                 name="companySize"
@@ -137,7 +151,9 @@ export const EventRegistrationForm = () => {
               />
             </FormGroup>
             <FormGroup>
-              <label htmlFor="companyType">Company Type<span>*</span></label>
+              <label htmlFor="companyType">
+                Company Type<span>*</span>
+              </label>
               <input
                 type="text"
                 name="companyType"
@@ -164,6 +180,7 @@ const MainDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px 0px;
   .logoNameAndFormDiv {
     background-color: #f0eeeecc;
     width: 25%;
@@ -213,26 +230,26 @@ const MainDiv = styled.div`
     }
   }
   @media (max-width: 1900px) {
-  .logoNameAndFormDiv {
-    width: 35%;
+    .logoNameAndFormDiv {
+      width: 35%;
+    }
   }
-}
-@media (max-width: 1400px) {
-  .logoNameAndFormDiv {
-    width: 50%;
+  @media (max-width: 1400px) {
+    .logoNameAndFormDiv {
+      width: 50%;
+    }
   }
-}
-@media (max-width: 900px) {
-  .logoNameAndFormDiv {
-    width: 60%;
+  @media (max-width: 900px) {
+    .logoNameAndFormDiv {
+      width: 60%;
+    }
   }
-}
 
-@media (max-width: 480px) {
-  .logoNameAndFormDiv {
-    width: 100%;
+  @media (max-width: 480px) {
+    .logoNameAndFormDiv {
+      width: 100%;
+    }
   }
-}
 `;
 
 const FormGroup = styled.div`
