@@ -16,6 +16,7 @@ import { FaUserTie } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 
 export const AdminNavbar = () => {
+  const storedAccessToken = localStorage.getItem("access_token");
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -75,12 +76,14 @@ export const AdminNavbar = () => {
 
         <div className="profileAndLogoutBtn">
           <div>
-            <Button
-              onClick={handleClickDashMenu}
-              startIcon={<MdDashboard size={18} />}
-            >
-              Dashboard
-            </Button>
+            {storedAccessToken && (
+              <Button
+                onClick={handleClickDashMenu}
+                startIcon={<MdDashboard size={18} />}
+              >
+                Dashboard
+              </Button>
+            )}
             <Menu
               id="simple-menu"
               anchorEl={open}

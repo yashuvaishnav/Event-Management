@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdEvent, MdEventAvailable } from "react-icons/md";
+import { GoInfo } from "react-icons/go";
 
 export const Dashboard = ({
   isAuthorized,
@@ -16,19 +17,26 @@ export const Dashboard = ({
             <button id="signoutButton" onClick={handleSignoutClick}>
               Sign Out
             </button>
-            <p>
-              After signing out you will not be able to Create, update and delete events.
-            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <GoInfo size={18} />
+              <p>
+                After signing out you will not be able to Create, update and
+                delete events.
+              </p>
+            </div>
           </div>
         ) : (
           <div className="authorizeDiv">
             <button id="authorizeButton" onClick={handleAuthClick}>
               Authorize
             </button>
-            <p>
-              For Creating, updating and deleting events. you need to authorize
-              first.
-            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <GoInfo size={18} />
+              <p>
+                For Creating, updating and deleting events. you need to
+                authorize first.
+              </p>
+            </div>
           </div>
         )}
       </Authorize>
@@ -99,7 +107,8 @@ const Authorize = styled.div`
   padding: 20px 20px 0px 20px;
   display: flex;
   /* border: 1px solid black; */
-  .signoutDiv, .authorizeDiv {
+  .signoutDiv,
+  .authorizeDiv {
     width: 40%;
     padding: 20px 20px 0px 20px;
     margin: auto;
