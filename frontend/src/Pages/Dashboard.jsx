@@ -9,10 +9,11 @@ export const Dashboard = ({
   handleAuthClick,
   handleSignoutClick,
 }) => {
+  const storedAccessToken = localStorage.getItem('access_token');
   return (
     <MainDiv>
       <Authorize>
-        {isAuthorized ? (
+        {isAuthorized && storedAccessToken ? (
           <div className="signoutDiv">
             <button id="signoutButton" onClick={handleSignoutClick}>
               Sign Out

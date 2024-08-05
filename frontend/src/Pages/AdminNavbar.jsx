@@ -42,6 +42,8 @@ export const AdminNavbar = () => {
   const handleLogout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("event");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("expires_in")
     dispatch(Logout(showSuccessToast, showErrorToast, navigate));
   };
 
