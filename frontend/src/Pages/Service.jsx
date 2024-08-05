@@ -60,7 +60,7 @@ export const Service = () => {
           </p>
         </div>
       </div>
-      <Footer />
+      
     </MainDiv>
   );
 };

@@ -83,7 +83,7 @@ export const HomePage = () => {
           )}
         </LatestEvents>
       </>
-      <Footer />
+      
     </MainDiv>
   );
 };

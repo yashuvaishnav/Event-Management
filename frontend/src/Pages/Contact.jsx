@@ -175,7 +175,7 @@ export const Contact = () => {
           </div>
         )}
       </div>
-      <Footer />
+      
     </MainDiv>
   );
 };
