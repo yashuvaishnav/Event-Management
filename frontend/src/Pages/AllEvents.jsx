@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Box, Modal } from "@mui/material";
 import styled from "styled-components";
 import { Popup } from "../Components/PopupComponent/Popup";
 import { Loader } from "../Components/Loader/Loading";
@@ -10,26 +9,12 @@ import {
 } from "../Components/Redux/DummyGoogleAuth/action";
 import { PiWarningCircleLight } from "react-icons/pi";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: "15px 20px",
-  outline: "none",
-};
-
-export const AllEvents = () => {
+export const AllEvents = ({gapi}) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
-  const [open, setOpen] = useState(false);
+
   const dispatch = useDispatch();
-  const gapi = window.gapi;
 
   const { googleEventsData, isLoading } = useSelector((store) => {
     return {
@@ -79,10 +64,6 @@ export const AllEvents = () => {
     );
   };
 
-  const openEditModal = () => {
-    setOpen(true);
-  };
-
   return (
     <MainDiv>
       <div className="allEventsData">
@@ -113,9 +94,6 @@ export const AllEvents = () => {
                       >
                         Delete Event
                       </button>
-                      <button className="deleteEvent" onClick={openEditModal}>
-                        Edit
-                      </button>
                     </div>
                   </div>
                 </Card>
@@ -132,6 +110,7 @@ export const AllEvents = () => {
             show={isPopupVisible}
             onClose={togglePopup}
             event={selectedEvent}
+            gapi={gapi}
           />
         )}
         {isConfirmVisible && (
@@ -150,14 +129,6 @@ export const AllEvents = () => {
           </div>
         )}
       </div>
-      {/* Edit modal */}
-      <Modal
-        open={openEditModal}
-        onClose={() => setOpen(false)}
-        aria-labelledby="delete-confirmation-modal"
-      >
-        <Box sx={style}>Hello This is testing modal</Box>
-      </Modal>
     </MainDiv>
   );
 };

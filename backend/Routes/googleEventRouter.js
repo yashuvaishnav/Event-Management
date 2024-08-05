@@ -44,7 +44,22 @@ googleRouter.patch("/update/:id", async (req, res) => {
       updatedData,
       options
     );
-    res.send(result);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+googleRouter.put("/update/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedData = req.body;
+    const options = { new: true };
+
+    const result = await GoogleEventModel.findByIdAndUpdate(
+      id,
+      updatedData,
+      options
+    );
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -52,10 +67,7 @@ googleRouter.patch("/update/:id", async (req, res) => {
 googleRouter.delete("/delete/:id",async(req,res)=>{
   try {
     const id = req.params.id;
-    console.log("id",id)
     const result = await GoogleEventModel.findByIdAndDelete(id);
-    console.log("result", result);
-    
     if (result) {
       res.send({ msg: "Event deleted successfully" });
     } else {

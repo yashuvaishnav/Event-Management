@@ -136,7 +136,7 @@ export const AllRoutes = () => {
 
       {/* private routes */}
       <Route path="/adminDashboard" element={<PrivateRoute><Dashboard handleAuthClick={handleAuthClick} handleSignoutClick={handleSignoutClick} isAuthorized={isAuthorized} /></PrivateRoute>}/>
-      <Route path="/allEvents" element={<PrivateRoute><AllEvents /></PrivateRoute>} />
+      <Route path="/allEvents" element={<PrivateRoute><AllEvents gapi={gapi} /></PrivateRoute>} />
       <Route path="/participants" element={<PrivateRoute><ClientParticipants /></PrivateRoute>}/>
       <Route path="/participated" element={<PrivateRoute><Participated /></PrivateRoute>} />
       <Route path="/dummyHostEvent" element={<PrivateRoute><DummyGoogleCalendar gapi={gapi} /></PrivateRoute>} />
