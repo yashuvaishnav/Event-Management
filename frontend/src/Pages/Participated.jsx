@@ -10,6 +10,7 @@ import {
   sendThankYouMail,
 } from "../Components/Redux/Participated/action";
 import { fetchEventsData } from "../Components/Redux/Events/action";
+import { fetchGoogleEventsData } from "../Components/Redux/DummyGoogleAuth/action";
 
 export const Participated = () => {
   const [filteredParticipatedData, setFilteredParticipatedData] = useState([]);
@@ -29,6 +30,17 @@ export const Participated = () => {
   useEffect(() => {
     dispatch(getParticipatedData(searchQuery));
     dispatch(fetchEventsData());
+  }, []);
+
+  const { googleEventsData } = useSelector((store) => {
+    return {
+      googleEventsData: store.googleEventReducer.googleEventsData,
+      isLoading : store.googleEventReducer.isLoading,
+    };
+  }, shallowEqual);
+
+  useEffect(() => {
+    dispatch(fetchGoogleEventsData());
   }, []);
 
   useEffect(() => {

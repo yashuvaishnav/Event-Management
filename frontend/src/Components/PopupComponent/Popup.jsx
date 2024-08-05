@@ -14,6 +14,9 @@ export const Popup = ({ show, onClose, event }) => {
     localStorage.setItem("event", JSON.stringify(event));
     navigate("/participants");
   };
+  const handleEditEvent = () =>{
+    
+  }
 
   return (
     <MainDiv>
@@ -67,7 +70,7 @@ export const Popup = ({ show, onClose, event }) => {
               <button className="sendMailAndEditBtn" onClick={handleMail}>
                 Send Mail
               </button>
-              <button className="sendMailAndEditBtn" id="editBtn">
+              <button className="sendMailAndEditBtn" id="editBtn" onClick={handleEditEvent}>
                 Edit Event
               </button>
             </div>

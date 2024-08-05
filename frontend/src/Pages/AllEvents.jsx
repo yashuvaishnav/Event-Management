@@ -19,6 +19,7 @@ export const AllEvents = () => {
   const { googleEventsData,isLoading } = useSelector((store) => {
     return {
       googleEventsData: store.googleEventReducer.googleEventsData,
+      isLoading : store.googleEventReducer.isLoading,
     };
   }, shallowEqual);
 
