@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { Footer } from "./Footer";
 
 export const Service = () => {
   return (
     <MainDiv>
       <div className="heading">
-        <h3>This is what</h3>
-        <h1>WE SERVE</h1>
+        <p>THIS IS WHAT WE SERVE</p>
       </div>
       <div className="cardsContainer">
         <div className="cardDiv">
@@ -67,17 +65,13 @@ export const Service = () => {
 
 const MainDiv = styled.div`
   .heading {
-    h3 {
-      font-size: 20px;
-      color: #333;
+    width: 80%;
+    margin: auto;
+    p {
+      font-size: 25px;
+      color: #868686;
       font-weight: 500;
-    }
-    h1 {
-      font-size: 30px;
-      font-weight: 500;
-      color: #444141;
-      margin-bottom: 30px;
-      line-height: 0.2;
+      text-align: start;
     }
   }
   div {

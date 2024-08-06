@@ -54,12 +54,13 @@ export const createGoogleEvent = (obj) => () => {
     });
 };
 
-export const deleteGoogleEvent = (eventId) => async () => {
+export const deleteGoogleEvent = (eventId) => async (dispatch) => {
   await axios
     .delete(`http://localhost:8080/calender/delete/${eventId}`)
     .then((res) => {
       console.log("res", res);
       showSuccessToast("Event Deleted successfully");
+      dispatch(fetchGoogleEventsData());
     })
     .catch((err) => {
       showErrorToast(err.response.data.msg);
@@ -75,6 +76,7 @@ export const updateGoogleEvent = (editEventData) => async () => {
     .then((res) => {
       console.log("res", res);
       showSuccessToast("Event Updated successfully");
+      fetchGoogleEventsData();
     })
     .catch((err) => {
       showErrorToast(err.response.data.msg);

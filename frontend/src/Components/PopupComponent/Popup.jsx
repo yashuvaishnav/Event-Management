@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Modal } from "@mui/material";
 import { updateGoogleEvent } from "../Redux/DummyGoogleAuth/action";
 import { useDispatch } from "react-redux";
+import { GoInfo } from "react-icons/go";
 
 const style = {
   position: "absolute",
@@ -24,6 +25,7 @@ export const Popup = ({ show, onClose, event, gapi }) => {
   const [open, setOpen] = useState(false);
   const [eventDetails, setEventDetails] = useState(event);
   const dispatch = useDispatch();
+  const [showPopup, setShowPopup] = useState(false);
 
   if (!show) {
     return null;
@@ -85,8 +87,8 @@ export const Popup = ({ show, onClose, event, gapi }) => {
 
     let obj = {
       ...eventDetails,
-      supportPerson : cleanSupportPerson
-    }
+      supportPerson: cleanSupportPerson,
+    };
 
     const request = gapi.client.calendar.events.patch({
       calendarId: "primary",
@@ -104,6 +106,10 @@ export const Popup = ({ show, onClose, event, gapi }) => {
       }
     );
   };
+  const openInfo = () => {
+    alert("Hello");
+  };
+
   return (
     <MainDiv>
       <div className="popup-overlay">
@@ -153,9 +159,20 @@ export const Popup = ({ show, onClose, event, gapi }) => {
               </ul>
             </div>
             <div className="btn">
-              <button className="sendMailAndEditBtn" onClick={handleMail}>
-                Send Mail
-              </button>
+              <div className="inforDiv">
+                <button className="sendMailAndEditBtn" onClick={handleMail}>
+                  Send Mail
+                </button>
+                  <GoInfo
+                    size={18}
+                    onMouseEnter={() => setShowPopup(true)}
+                    onMouseLeave={() => setShowPopup(false)}
+                  />
+                  <ShowInfo visible={showPopup}>
+                    For sending this event to client, click the send mail
+                    button.
+                  </ShowInfo>
+              </div>
               <button
                 className="sendMailAndEditBtn"
                 id="editBtn"
@@ -391,6 +408,15 @@ const MainDiv = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      .inforDiv {
+        display: flex;
+        width: 40%;
+        justify-content: center;
+        align-items: center;
+        svg{
+          margin: 19px 0px 0px 5px;
+        }
+      }
       .sendMailAndEditBtn {
         background-color: #04aa6d;
         color: white;
@@ -412,4 +438,20 @@ const MainDiv = styled.div`
       }
     }
   }
+`;
+
+const ShowInfo = styled.div`
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
+  opacity: ${(props) => (props.visible ? 1 : 0)};
+  transition: opacity 0.3s;
+  white-space: nowrap;
+  left: 30%;
+  top:99% ;
+  transform: translate(-50%, -50%);
 `;

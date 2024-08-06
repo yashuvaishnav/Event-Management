@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdEvent, MdEventAvailable } from "react-icons/md";
 import { GoInfo } from "react-icons/go";
+import { shallowEqual, useSelector } from "react-redux";
+import { getParticipantsData } from "../Components/Redux/Participants/action";
+import { fetchGoogleEventsData } from "../Components/Redux/DummyGoogleAuth/action";
 
 export const Dashboard = ({
   isAuthorized,
   handleAuthClick,
   handleSignoutClick,
 }) => {
+  const { participantsData ,googleEventsData} = useSelector((store) => {
+    return {
+      participantsData: store.participantsReducer.participantsData,
+      googleEventsData: store.googleEventReducer.googleEventsData,
+    };
+  }, shallowEqual);
+ 
+  useState(() => {
+    getParticipantsData()
+    fetchGoogleEventsData();
+  },[])
   const storedAccessToken = localStorage.getItem('access_token');
   return (
     <MainDiv>
@@ -44,17 +58,17 @@ export const Dashboard = ({
       <div className="allClients">
         <div className="clients">
           <FaRegUserCircle />
-          <h2>50</h2>
+          <h2>{participantsData.length}</h2>
           <h1>Total Clients</h1>
         </div>
         <div className="clients">
           <MdEvent />
-          <h2>120</h2>
+          <h2>{googleEventsData.length}</h2>
           <h1>Total Events</h1>
         </div>
         <div className="clients">
           <MdEventAvailable />
-          <h2>23</h2>
+          <h2>0</h2>
           <h1>Completed Events</h1>
         </div>
       </div>
@@ -64,10 +78,12 @@ export const Dashboard = ({
 
 const MainDiv = styled.div`
   .allClients {
+    width: 90%;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 20px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    /* border: 1px solid black; */
     .clients {
       width: 25%;
       height: 150px;

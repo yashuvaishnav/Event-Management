@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
 import {
   Toastify,
@@ -62,8 +61,7 @@ export const Contact = () => {
       <Toastify />
       <div className="bodyDiv">
         <div className="heading">
-          <h3>DROP US A </h3>
-          <h1>SUGGESTION</h1>
+          <p>DROP US A SUGGESTION</p>
         </div>
         {selectedTab === "clientSuggestion" ? (
           <div className="formAndImageDiv">
@@ -183,17 +181,13 @@ export const Contact = () => {
 const MainDiv = styled.div`
   .heading {
     text-align: center;
-    h3 {
-      font-size: 20px;
-      color: #4b4a4a;
+    width: 80%;
+    margin: auto;
+    p {
+      font-size: 25px;
+      color: #868686;
       font-weight: 500;
-    }
-    h1 {
-      font-size: 30px;
-      font-weight: 500;
-      color: #444141;
-      margin-bottom: 30px;
-      line-height: 0.2;
+      text-align: start;
     }
   }
   .formAndImageDiv {

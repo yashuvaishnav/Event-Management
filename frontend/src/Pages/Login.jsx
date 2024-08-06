@@ -82,7 +82,6 @@ const MainDiv = styled.div`
 
   .imageDiv {
     width: 40%;
-    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,20 +100,16 @@ const MainDiv = styled.div`
   }
   .formDiv input {
     width: 30%;
-    padding: 15px;
-    border: 1px solid #ffffff;
-    color: #ffff;
-    background-color: #007bff;
-    border-radius: 4px;
-    font-size: 18px;
+    padding: 13px;
+    font-size: 16px;
     outline: none;
-    border-radius: 8px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    &:hover {
+      border: 2px solid #2678ec;
+    }
   }
-  .formDiv input::placeholder {
-    font-size: 15px;
-    color: #ffff;
-    font-weight: 500;
-  }
+  
   .formDiv button {
     width: 20%;
     padding: 15px;
@@ -130,12 +125,15 @@ const MainDiv = styled.div`
       background-color: #0056b3;
     }
   }
-  .signupBtn button {
+  .signupBtn {
+    margin: 5px;
+    button {
     border: none;
     font-weight: bolder;
     background: none;
     color: #2678ec;
     font-size: 18px;
     cursor: pointer;
+  }
   }
 `;

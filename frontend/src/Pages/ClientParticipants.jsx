@@ -11,6 +11,8 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getParticipantsData } from "../Components/Redux/Participants/action";
 import { patchAttendees } from "../Components/Redux/DummyGoogleAuth/action";
 import axios from "axios";
+import { GoInfo } from "react-icons/go";
+
 
 export const ClientParticipants = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,6 +20,8 @@ export const ClientParticipants = () => {
   const eventsData = localStorage.getItem("event");
   const googleEventsData = JSON.parse(eventsData);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+
   const dispatch = useDispatch();
   const gapi = window.gapi;
 
@@ -138,7 +142,15 @@ export const ClientParticipants = () => {
                   <th>Company Name</th>
                   <th>Email</th>
                   <th>Contact</th>
-                  <th>Send Email</th>
+                  <th className="sendMailHead">Send Email <GoInfo
+                    size={18}
+                    onMouseEnter={() => setShowPopup(true)}
+                    onMouseLeave={() => setShowPopup(false)}
+                  />
+                  <ShowInfo visible={showPopup}>
+                    For sending invitations click the send mail
+                    button.
+                  </ShowInfo></th>
                 </tr>
               </thead>
               <tbody>
@@ -243,6 +255,14 @@ const MainDiv = styled.div`
     font-weight: bold;
     font-size: 18px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    .sendMailHead{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg{
+        margin-left: 5px;
+      }
+    }
   }
   .client-table tbody tr {
     font-weight: 400;
@@ -305,4 +325,19 @@ const PaginationContainer = styled.div`
   span {
     font-size: 18px;
   }
+`;
+const ShowInfo = styled.div`
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
+  opacity: ${(props) => (props.visible ? 1 : 0)};
+  transition: opacity 0.3s;
+  white-space: nowrap;
+  left: 82%;
+  top:20% ;
+  transform: translate(-50%, -50%);
 `;

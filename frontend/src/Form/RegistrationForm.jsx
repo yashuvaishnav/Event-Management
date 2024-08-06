@@ -61,7 +61,7 @@ export const RegistrationForm = () => {
             width={40}
             height={40}
           />
-          <h2>CEOITBOX</h2>
+          {/* <h2>CEOITBOX</h2> */}
         </div>
         <p>Registration Form</p>
         <div className="formDiv">

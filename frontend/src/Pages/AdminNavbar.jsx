@@ -15,8 +15,7 @@ import { MdEventAvailable } from "react-icons/md";
 import { FaUserTie } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 
-export const AdminNavbar = () => {
-  const storedAccessToken = localStorage.getItem("access_token");
+export const AdminNavbar = ({isAuthorized,setIsAuthorized}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -44,6 +43,7 @@ export const AdminNavbar = () => {
     localStorage.removeItem("event");
     localStorage.removeItem("access_token");
     localStorage.removeItem("expires_in")
+    setIsAuthorized(false);
     dispatch(Logout(showSuccessToast, showErrorToast, navigate));
   };
 
@@ -78,7 +78,7 @@ export const AdminNavbar = () => {
 
         <div className="profileAndLogoutBtn">
           <div>
-            {storedAccessToken && (
+            {isAuthorized && (
               <Button
                 onClick={handleClickDashMenu}
                 startIcon={<MdDashboard size={18} />}

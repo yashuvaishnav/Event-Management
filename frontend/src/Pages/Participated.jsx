@@ -11,6 +11,8 @@ import {
 } from "../Components/Redux/Participated/action";
 import { fetchEventsData } from "../Components/Redux/Events/action";
 import { fetchGoogleEventsData } from "../Components/Redux/DummyGoogleAuth/action";
+import { GoInfo } from "react-icons/go";
+
 
 export const Participated = () => {
   const [filteredParticipatedData, setFilteredParticipatedData] = useState([]);
@@ -18,6 +20,8 @@ export const Participated = () => {
   const [selectedEventId, setSelectedEventId] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 8;
+  const [showPopup, setShowPopup] = useState(false);
+
   const dispatch = useDispatch();
 
   const { participatedsData, isLoading, eventsData } = useSelector((store) => {
@@ -35,7 +39,7 @@ export const Participated = () => {
   const { googleEventsData } = useSelector((store) => {
     return {
       googleEventsData: store.googleEventReducer.googleEventsData,
-      isLoading : store.googleEventReducer.isLoading,
+      isLoading: store.googleEventReducer.isLoading,
     };
   }, shallowEqual);
 
@@ -171,7 +175,17 @@ export const Participated = () => {
                   <th>Company Name</th>
                   <th>Email</th>
                   <th>Contact</th>
-                  <th>Send Mail</th>
+                  <th className="sendMailHead">
+                    Send Mail
+                    <GoInfo
+                      size={18}
+                      onMouseEnter={() => setShowPopup(true)}
+                      onMouseLeave={() => setShowPopup(false)}
+                    />
+                    <ShowInfo visible={showPopup}>
+                      For sending thank you and feedback form click the send mail button.
+                    </ShowInfo>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -303,6 +317,14 @@ const MainDiv = styled.div`
     font-weight: bold;
     font-size: 18px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    .sendMailHead{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg{
+        margin-left: 5px;
+      }
+    }
   }
   .clientDataTable tbody tr {
     font-weight: 400;
@@ -336,11 +358,17 @@ const MainDiv = styled.div`
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    svg{
+      font-size: 20px;
+    }
     &:hover {
       text-decoration: underline;
     }
     svg {
       font-size: 20px;
+      &:hover{
+        color:#5bef4a ;
+      }
     }
   }
 `;
@@ -366,4 +394,20 @@ const PaginationContainer = styled.div`
   span {
     font-size: 18px;
   }
+`;
+
+const ShowInfo = styled.div`
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
+  opacity: ${(props) => (props.visible ? 1 : 0)};
+  transition: opacity 0.3s;
+  white-space: nowrap;
+  left: 80%;
+  top:20% ;
+  transform: translate(-50%, -50%);
 `;

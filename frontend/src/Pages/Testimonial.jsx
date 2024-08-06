@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Footer } from "./Footer";
 import { Loader } from "../Components/Loader/Loading";
 import { fetchTestimonialData } from "../Components/Redux/Suggestions/action";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -56,8 +55,8 @@ export const Testimonial = () => {
     <MainDiv>
       <div className="bodyDiv">
         <div className="heading">
-          <h3>WHAT CUSTOMERS SAY</h3>
-          <h1>RECENT TESTIMONIAL</h1>
+          <p>WHAT CUSTOMERS SAY RECENT TESTIMONIAL</p>
+          
         </div>
         {isLoading ? (
           <Loader />
@@ -120,17 +119,13 @@ const MainDiv = styled.div`
     margin: 30px 0px;
   }
   .heading {
-    h3 {
-      font-size: 18px;
-      color: #333;
+    width: 80%;
+    margin: auto;
+    p {
+      font-size: 25px;
+      color: #868686;
       font-weight: 500;
-    }
-    h1 {
-      font-size: 30px;
-      font-weight: 500;
-      color: #444141;
-      margin-bottom: 40px;
-      line-height: 0.2;
+      text-align: start;
     }
   }
 

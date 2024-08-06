@@ -1,5 +1,5 @@
-import React,{useEffect, useState} from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { Dashboard } from "../../Pages/Dashboard";
 import { RegistrationForm } from "../../Form/RegistrationForm";
 import { FeedbackForm } from "../../Form/FeedbackForm";
@@ -13,9 +13,11 @@ import { Login } from "../../Pages/Login";
 import { Signup } from "../../Pages/Signup";
 import { PrivateRoute } from "../AllRoutes/PrivateRoute";
 import { AllEvents } from "../../Pages/AllEvents";
-import { HomePage } from "../../Pages/HomePage"
+import { HomePage } from "../../Pages/HomePage";
 import { DummyGoogleCalendar } from "../../Pages/DummyGoogleCalendar";
-
+import { AdminNavbar } from "../../Pages/AdminNavbar";
+import { Navbar } from "../../Pages/Navbar";
+import { Footer } from "../../Pages/Footer";
 
 export const AllRoutes = () => {
   const [accessTokenTemp, setAccessTokenTemp] = useState("");
@@ -40,10 +42,10 @@ export const AllRoutes = () => {
   //   tokenCheck();
   // }, [accessTokenTemp]);
 
-  function tokenCheck () {
+  function tokenCheck() {
     const storedAccessToken = localStorage.getItem("access_token");
     const storedExpiresIn = localStorage.getItem("expires_in");
-    console.log('gapi',gapi.client);
+    console.log("gapi", gapi.client);
     if (storedAccessToken && storedExpiresIn) {
       gapi?.client?.setToken({ access_token: storedAccessToken });
       setIsAuthorized(true);
@@ -58,7 +60,7 @@ export const AllRoutes = () => {
       apiKey: API_KEY,
       discoveryDocs: [DISCOVERY_DOC],
     });
-    console.log('initial-1', gapi.client)
+    console.log("initial-1", gapi.client);
     tokenCheck();
   }
 
@@ -66,13 +68,13 @@ export const AllRoutes = () => {
     const tokenClientInstance = google.accounts.oauth2.initTokenClient({
       client_id: CLIENT_ID,
       scope: SCOPES,
-      callback: '',
+      callback: "",
       // callback: handleTokenCallback,
     });
-    gapiLoaded()
-    console.log('initial-2', gapi.client)
-    console.log('gisLoaded',tokenClientInstance);
-    tokenCheck()
+    gapiLoaded();
+    console.log("initial-2", gapi.client);
+    console.log("gisLoaded", tokenClientInstance);
+    tokenCheck();
     setTokenClient(tokenClientInstance);
   }
 
@@ -92,8 +94,8 @@ export const AllRoutes = () => {
       if (resp.error !== undefined) {
         throw resp;
       }
-      console.log('gisLoaded11',gapi.client.getToken());
-      console.log('resp',resp);
+      console.log("gisLoaded11", gapi.client.getToken());
+      console.log("resp", resp);
 
       const { access_token, expires_in } = gapi.client.getToken();
       localStorage.setItem("access_token", access_token);
@@ -124,27 +126,83 @@ export const AllRoutes = () => {
     }
   }
 
+  const location = useLocation();
+  const pathArr = [
+    "/adminDashboard",
+    "/allEvents",
+    "/participants",
+    "/participated",
+    "/dummyHostEvent",
+  ];
+
+
   return (
-    <Routes>
-      {/* Routes */}
-      <Route path="/" element={<HomePage />} />
-      <Route path="/service" element={<Service />} />
-      <Route path="/testimonial" element={<Testimonial />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+    <div>
+        {pathArr.includes(location.pathname) ? <AdminNavbar isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} /> : <Navbar />}
+      <Routes>
+        {/* Routes */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/service" element={<Service />} />
+        <Route path="/testimonial" element={<Testimonial />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-      {/* private routes */}
-      <Route path="/adminDashboard" element={<PrivateRoute><Dashboard handleAuthClick={handleAuthClick} handleSignoutClick={handleSignoutClick} isAuthorized={isAuthorized} /></PrivateRoute>}/>
-      <Route path="/allEvents" element={<PrivateRoute><AllEvents gapi={gapi} /></PrivateRoute>} />
-      <Route path="/participants" element={<PrivateRoute><ClientParticipants /></PrivateRoute>}/>
-      <Route path="/participated" element={<PrivateRoute><Participated /></PrivateRoute>} />
-      <Route path="/dummyHostEvent" element={<PrivateRoute><DummyGoogleCalendar gapi={gapi} /></PrivateRoute>} />
+        {/* private routes */}
+        <Route
+          path="/adminDashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard
+                handleAuthClick={handleAuthClick}
+                handleSignoutClick={handleSignoutClick}
+                isAuthorized={isAuthorized}
+              />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/allEvents"
+          element={
+            <PrivateRoute>
+              <AllEvents gapi={gapi} />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/participants"
+          element={
+            <PrivateRoute>
+              <ClientParticipants />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/participated"
+          element={
+            <PrivateRoute>
+              <Participated />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dummyHostEvent"
+          element={
+            <PrivateRoute>
+              <DummyGoogleCalendar gapi={gapi} />
+            </PrivateRoute>
+          }
+        />
 
-      {/* forms */}
-      <Route path="/eventRegistrationForm" element={<EventRegistrationForm />}/>
-      <Route path="/registrationForm" element={<RegistrationForm />} />
-      <Route path="/feedbackForm" element={<FeedbackForm />} />
-    </Routes>
+        {/* forms */}
+        <Route
+          path="/eventRegistrationForm"
+          element={<EventRegistrationForm />}
+        />
+        <Route path="/registrationForm" element={<RegistrationForm />} />
+        <Route path="/feedbackForm" element={<FeedbackForm />} />
+      </Routes>
+      {!pathArr.includes(location.pathname) && <Footer />}
+    </div>
   );
 };

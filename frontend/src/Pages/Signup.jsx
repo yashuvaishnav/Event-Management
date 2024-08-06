@@ -193,7 +193,7 @@ const MainDiv = styled.div`
   }
 
   .imageDiv img {
-    width: 80%;
+    width: 100%;
     height: auto;
   }
 `;
