@@ -45,7 +45,7 @@ export const AllRoutes = () => {
   function tokenCheck() {
     const storedAccessToken = localStorage.getItem("access_token");
     const storedExpiresIn = localStorage.getItem("expires_in");
-    console.log("gapi", gapi.client);
+    // console.log("gapi", gapi.client);
     if (storedAccessToken && storedExpiresIn) {
       gapi?.client?.setToken({ access_token: storedAccessToken });
       setIsAuthorized(true);
@@ -60,7 +60,7 @@ export const AllRoutes = () => {
       apiKey: API_KEY,
       discoveryDocs: [DISCOVERY_DOC],
     });
-    console.log("initial-1", gapi.client);
+    // console.log("initial-1", gapi.client);
     tokenCheck();
   }
 
@@ -72,22 +72,11 @@ export const AllRoutes = () => {
       // callback: handleTokenCallback,
     });
     gapiLoaded();
-    console.log("initial-2", gapi.client);
-    console.log("gisLoaded", tokenClientInstance);
+    // console.log("initial-2", gapi.client);
+    // console.log("gisLoaded", tokenClientInstance);
     tokenCheck();
     setTokenClient(tokenClientInstance);
   }
-
-  // function handleTokenCallback(resp) {
-
-  //   if (resp.error !== undefined) {
-  //     throw resp;
-  //   }
-  //   const { access_token } = resp;
-  //   localStorage.setItem("access_token", access_token);
-  //   setIsAuthorized(true);
-  //   // gapi.client.setToken({ access_token });
-  // }
 
   async function handleAuthClick() {
     tokenClient.callback = async (resp) => {
@@ -95,7 +84,7 @@ export const AllRoutes = () => {
         throw resp;
       }
       console.log("gisLoaded11", gapi.client.getToken());
-      console.log("resp", resp);
+      // console.log("resp", resp);
 
       const { access_token, expires_in } = gapi.client.getToken();
       localStorage.setItem("access_token", access_token);

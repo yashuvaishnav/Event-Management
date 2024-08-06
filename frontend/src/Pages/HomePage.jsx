@@ -16,6 +16,8 @@ export const HomePage = () => {
     };
   }, shallowEqual);
 
+  const filteredData = googleEventsData.slice(0, 3);
+
   useEffect(() => {
     dispatch(fetchGoogleEventsData());
   }, []);
@@ -63,7 +65,7 @@ export const HomePage = () => {
               </div>
               <div className="cards">
                 {googleEventsData.length > 0 ? (
-                  googleEventsData?.map((item, i) => (
+                  filteredData?.map((item, i) => (
                     <div className="card-description" key={i}>
                       <div className="imageDiv">
                         <img src={item.imageUrl} alt="" />

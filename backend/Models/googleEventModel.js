@@ -18,6 +18,8 @@ const googleEventSchema = mongoose.Schema(
         email: { type: String},
         responseStatus: { type: String, default: "needsAction" },
         attendance : { type: Boolean, default: false },
+        name : { type: String},
+        contact : {type: Number},
       }
     ],
     organizedBy: { type: String },

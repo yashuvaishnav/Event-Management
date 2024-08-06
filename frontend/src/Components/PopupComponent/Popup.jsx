@@ -12,7 +12,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 500,
   bgcolor: "background.paper",
   borderRadius: "10px",
   boxShadow: 24,
@@ -106,9 +106,6 @@ export const Popup = ({ show, onClose, event, gapi }) => {
       }
     );
   };
-  const openInfo = () => {
-    alert("Hello");
-  };
 
   return (
     <MainDiv>
@@ -163,15 +160,14 @@ export const Popup = ({ show, onClose, event, gapi }) => {
                 <button className="sendMailAndEditBtn" onClick={handleMail}>
                   Send Mail
                 </button>
-                  <GoInfo
-                    size={18}
-                    onMouseEnter={() => setShowPopup(true)}
-                    onMouseLeave={() => setShowPopup(false)}
-                  />
-                  <ShowInfo visible={showPopup}>
-                    For sending this event to client, click the send mail
-                    button.
-                  </ShowInfo>
+                <GoInfo
+                  size={18}
+                  onMouseEnter={() => setShowPopup(true)}
+                  onMouseLeave={() => setShowPopup(false)}
+                />
+                <ShowInfo visible={showPopup}>
+                  For sending this event to client, click the send mail button.
+                </ShowInfo>
               </div>
               <button
                 className="sendMailAndEditBtn"
@@ -190,126 +186,133 @@ export const Popup = ({ show, onClose, event, gapi }) => {
         aria-labelledby="delete-confirmation-modal"
       >
         <Box sx={style}>
-          <form onSubmit={editHostEvent}>
-            <input
-              type="text"
-              placeholder="Event Title"
-              name="summary"
-              value={eventDetails.summary}
-              onChange={handleInputChange}
-              required
-            />
-            <input
-              type="text"
-              name="location"
-              placeholder="Location"
-              value={eventDetails.location}
-              onChange={handleInputChange}
-              required
-            />
-            <input
-              type="text"
-              name="description"
-              placeholder="Description"
-              value={eventDetails.description}
-              onChange={handleInputChange}
-              required
-            />
-            <input
-              type="text"
-              name="keynoteSpeaker"
-              placeholder="Keynote Speaker"
-              value={eventDetails.keynoteSpeaker}
-              onChange={handleInputChange}
-              required
-            />
-            <input
-              type="text"
-              name="start"
-              placeholder="Start Date And Time"
-              value={eventDetails.start}
-              onChange={handleInputChange}
-              required
-            />
-            <input
-              type="text"
-              name="end"
-              placeholder="End Date And Time"
-              value={eventDetails.end}
-              onChange={handleInputChange}
-              required
-            />
-            <input
-              type="text"
-              name="participantsLimit"
-              placeholder="Participant Limit"
-              value={eventDetails.participantsLimit}
-              onChange={handleInputChange}
-              required
-            />
-            <input
-              type="text"
-              name="imageUrl"
-              placeholder="Image URL"
-              value={eventDetails.imageUrl}
-              onChange={handleInputChange}
-              required
-            />
-            <div>
-              <h2>Food Arrangements</h2>
-              {eventDetails.foodArrangements.map((food, i) => (
-                <input
-                  key={i}
-                  type="text"
-                  value={food}
-                  onChange={(e) =>
-                    handleArrayChange(i, "foodArrangements", e.target.value)
-                  }
-                  placeholder="Food Arrangements"
-                />
-              ))}
-            </div>
-            <div>
-              <h2>Equipments List</h2>
-              {eventDetails.equipmentList.map((equipment, i) => (
-                <input
-                  key={i}
-                  type="text"
-                  value={equipment}
-                  onChange={(e) =>
-                    handleArrayChange(i, "equipmentList", e.target.value)
-                  }
-                  placeholder="Equipments"
-                />
-              ))}
-            </div>
-            <div>
-              <h2>Support Person List</h2>
-              {eventDetails.supportPerson.map((person, i) => (
-                <div key={i}>
+          <EditEventDiv>
+            <form onSubmit={editHostEvent}>
+              <input
+                type="text"
+                placeholder="Event Title"
+                name="summary"
+                value={eventDetails.summary}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="location"
+                placeholder="Location"
+                value={eventDetails.location}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="description"
+                placeholder="Description"
+                value={eventDetails.description}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="keynoteSpeaker"
+                placeholder="Keynote Speaker"
+                value={eventDetails.keynoteSpeaker}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="start"
+                placeholder="Start Date And Time"
+                value={eventDetails.start}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="end"
+                placeholder="End Date And Time"
+                value={eventDetails.end}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="participantsLimit"
+                placeholder="Participant Limit"
+                value={eventDetails.participantsLimit}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="imageUrl"
+                placeholder="Image URL"
+                value={eventDetails.imageUrl}
+                onChange={handleInputChange}
+                required
+              />
+              <div className="details">
+                <p>Food Arrangements</p>
+                {eventDetails.foodArrangements.map((food, i) => (
                   <input
+                    key={i}
                     type="text"
-                    className="supportPersonDetails"
-                    value={person.name}
+                    value={food}
                     onChange={(e) =>
-                      handleSupportPersonChange(i, "name", e.target.value)
+                      handleArrayChange(i, "foodArrangements", e.target.value)
                     }
-                    placeholder="Support person name"
+                    placeholder="Food Arrangements"
                   />
+                ))}
+              </div>
+              <div className="details">
+                <p>Equipments List</p>
+                {eventDetails.equipmentList.map((equipment, i) => (
                   <input
+                    key={i}
                     type="text"
-                    className="supportPersonDetails"
-                    value={person.task}
+                    value={equipment}
                     onChange={(e) =>
-                      handleSupportPersonChange(i, "task", e.target.value)
+                      handleArrayChange(i, "equipmentList", e.target.value)
                     }
-                    placeholder="Support person task"
+                    placeholder="Equipments"
                   />
-                </div>
-              ))}
-            </div>
-            <button type="submit">Submit</button>
-          </form>
+                ))}
+              </div>
+              <div className="details">
+                <p>Support Person List</p>
+                {eventDetails.supportPerson.map((person, i) => (
+                  <div key={i}>
+                    <input
+                      type="text"
+                      className="supportPersonDetails"
+                      value={person.name}
+                      onChange={(e) =>
+                        handleSupportPersonChange(i, "name", e.target.value)
+                      }
+                      placeholder="Support person name"
+                    />
+                    <input
+                      type="text"
+                      className="supportPersonDetails"
+                      value={person.task}
+                      onChange={(e) =>
+                        handleSupportPersonChange(i, "task", e.target.value)
+                      }
+                      placeholder="Support person task"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="editAndCancelbtn">
+                <button className="submitBtn" type="submit">
+                  Submit
+                </button>
+                <button className="cancelBtn">Cancel</button>
+              </div>
+            </form>
+          </EditEventDiv>
         </Box>
       </Modal>
     </MainDiv>
@@ -330,7 +333,6 @@ const MainDiv = styled.div`
     z-index: 1000;
     overflow-y: scroll;
   }
-
   .popup {
     background: white;
     padding: 20px;
@@ -413,7 +415,7 @@ const MainDiv = styled.div`
         width: 40%;
         justify-content: center;
         align-items: center;
-        svg{
+        svg {
           margin: 19px 0px 0px 5px;
         }
       }
@@ -452,6 +454,59 @@ const ShowInfo = styled.div`
   transition: opacity 0.3s;
   white-space: nowrap;
   left: 30%;
-  top:99% ;
+  top: 99%;
   transform: translate(-50%, -50%);
+`;
+
+const EditEventDiv = styled.div`
+  padding: 10px;
+  width: 92%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .details {
+    p {
+      font-size: 20px;
+      margin: 5px 5px 5px 10px;
+      font-weight: 400;
+      color: #969696;
+    }
+  }
+
+  input {
+    padding: 10px 20px;
+    margin: 5px 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+  .editAndCancelbtn {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    button {
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 40%;
+      margin: 10px 10px 0px 10px;
+      font-size: 16px;
+    }
+    .submitBtn {
+    background-color: #007bff;
+    &:hover {
+      background-color: #2b68a9;
+    }
+  }
+  .cancelBtn{
+      background-color: red;
+      &:hover{
+      background-color: #a83c3c;
+      }
+    }
+  }
+  
 `;

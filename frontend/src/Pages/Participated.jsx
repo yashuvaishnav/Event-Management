@@ -36,16 +36,16 @@ export const Participated = () => {
     dispatch(fetchEventsData());
   }, []);
 
-  const { googleEventsData } = useSelector((store) => {
-    return {
-      googleEventsData: store.googleEventReducer.googleEventsData,
-      isLoading: store.googleEventReducer.isLoading,
-    };
-  }, shallowEqual);
+  // const { googleEventsData } = useSelector((store) => {
+  //   return {
+  //     googleEventsData: store.googleEventReducer.googleEventsData,
+  //     isLoading: store.googleEventReducer.isLoading,
+  //   };
+  // }, shallowEqual);
 
-  useEffect(() => {
-    dispatch(fetchGoogleEventsData());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchGoogleEventsData());
+  // }, []);
 
   useEffect(() => {
     let initialFilteredData2 = participatedsData;
@@ -169,7 +169,7 @@ export const Participated = () => {
             <table className="clientDataTable">
               <thead>
                 <tr>
-                  <th>S.No</th>
+                  <th className="serialNo">S.No</th>
                   <th>Attendance</th>
                   <th>Name</th>
                   <th>Company Name</th>
@@ -192,7 +192,7 @@ export const Participated = () => {
                 {currentData.length > 0 ? (
                   currentData.map((client, i) => (
                     <tr key={i}>
-                      <td>{(currentPage - 1) * itemsPerPage + i + 1}</td>
+                      <td className="serialNo">{(currentPage - 1) * itemsPerPage + i + 1}</td>
                       <td>
                         <input
                           type="checkbox"
@@ -342,6 +342,12 @@ const MainDiv = styled.div`
       justify-content: center;
       align-items: center;
     }
+  }
+  .client-table thead .serialNo{
+    text-align: center;
+  }
+  .client-table tbody .serialNo{
+    text-align: center;
   }
 
   .clientDataTable th,

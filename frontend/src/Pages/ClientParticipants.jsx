@@ -13,7 +13,6 @@ import { patchAttendees } from "../Components/Redux/DummyGoogleAuth/action";
 import axios from "axios";
 import { GoInfo } from "react-icons/go";
 
-
 export const ClientParticipants = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -60,6 +59,8 @@ export const ClientParticipants = () => {
     const clientDataEmail = client.email;
     const eventId = googleEventsData.key;
     const eventNormalId = googleEventsData._id;
+    const clientDataName = client.name;
+    const clientDataContact = client.contact;
 
     try {
       const response = await gapi.client.calendar.events.get({
@@ -87,7 +88,6 @@ export const ClientParticipants = () => {
         `http://localhost:8080/calender/${eventNormalId}`
       );
       const localEventData = localEventResponse.data;
-
       const updatedEventData = {
         ...localEventData,
         attendees: [
@@ -96,6 +96,8 @@ export const ClientParticipants = () => {
             email: clientDataEmail,
             responseStatus: "needsAction",
             attendance: false,
+            name: clientDataName,
+            contact: clientDataContact,
           },
         ],
       };
@@ -137,27 +139,31 @@ export const ClientParticipants = () => {
             <table className="client-table">
               <thead>
                 <tr>
-                  <th>S.No</th>
+                  <th className="serialNo">S.No</th>
                   <th>Name</th>
                   <th>Company Name</th>
                   <th>Email</th>
                   <th>Contact</th>
-                  <th className="sendMailHead">Send Email <GoInfo
-                    size={18}
-                    onMouseEnter={() => setShowPopup(true)}
-                    onMouseLeave={() => setShowPopup(false)}
-                  />
-                  <ShowInfo visible={showPopup}>
-                    For sending invitations click the send mail
-                    button.
-                  </ShowInfo></th>
+                  <th className="sendMailHead">
+                    Send Email{" "}
+                    <GoInfo
+                      size={18}
+                      onMouseEnter={() => setShowPopup(true)}
+                      onMouseLeave={() => setShowPopup(false)}
+                    />
+                    <ShowInfo visible={showPopup}>
+                      For sending invitations click the send mail button.
+                    </ShowInfo>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {currentData.length > 0 ? (
                   currentData.map((client, i) => (
                     <tr key={i}>
-                      <td>{(currentPage - 1) * itemsPerPage + i + 1})</td>
+                      <td className="serialNo">
+                        {(currentPage - 1) * itemsPerPage + i + 1})
+                      </td>
                       <td>{client.name}</td>
                       <td>{client.companyName}</td>
                       <td>{client.email}</td>
@@ -255,15 +261,19 @@ const MainDiv = styled.div`
     font-weight: bold;
     font-size: 18px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    .sendMailHead{
+    .sendMailHead {
       display: flex;
       justify-content: center;
       align-items: center;
-      svg{
+      svg {
         margin-left: 5px;
       }
     }
+    th {
+      padding: 5px;
+    }
   }
+
   .client-table tbody tr {
     font-weight: 400;
     font-size: 16px;
@@ -271,15 +281,21 @@ const MainDiv = styled.div`
     &:hover {
       background-color: #a1bee0;
     }
-    td,
-    th {
+    td {
       padding: 5px;
     }
+
     .send-mail {
       display: flex;
       justify-content: center;
       align-items: center;
     }
+  }
+  .client-table thead .serialNo {
+    text-align: center;
+  }
+  .client-table tbody .serialNo {
+    text-align: center;
   }
   .client-table th,
   .client-table td {
@@ -338,6 +354,6 @@ const ShowInfo = styled.div`
   transition: opacity 0.3s;
   white-space: nowrap;
   left: 82%;
-  top:20% ;
+  top: 20%;
   transform: translate(-50%, -50%);
 `;
