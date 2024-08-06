@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdEvent, MdEventAvailable } from "react-icons/md";
 import { GoInfo } from "react-icons/go";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getParticipantsData } from "../Components/Redux/Participants/action";
 import { fetchGoogleEventsData } from "../Components/Redux/DummyGoogleAuth/action";
 
@@ -12,17 +12,20 @@ export const Dashboard = ({
   handleAuthClick,
   handleSignoutClick,
 }) => {
-  const { participantsData ,googleEventsData} = useSelector((store) => {
+  
+  const dispatch = useDispatch();
+  const { googleEventsData,participantsData } = useSelector((store) => {
     return {
-      participantsData: store.participantsReducer.participantsData,
       googleEventsData: store.googleEventReducer.googleEventsData,
+      participantsData : store.participantsReducer.participantsData
     };
   }, shallowEqual);
- 
-  useState(() => {
-    getParticipantsData()
-    fetchGoogleEventsData();
-  },[])
+
+  useEffect(() => {
+    dispatch(fetchGoogleEventsData());
+    dispatch(getParticipantsData());
+  }, []);
+
   const storedAccessToken = localStorage.getItem('access_token');
   return (
     <MainDiv>

@@ -98,13 +98,17 @@ export const Popup = ({ show, onClose, event, gapi }) => {
     });
     request.execute(
       (response) => {
-        console.log("response", response);
-        dispatch(updateGoogleEvent(obj));
+        console.log(response);
+        if (response.status === "confirmed") {
+          dispatch(updateGoogleEvent(obj));
+        }
       },
       (error) => {
         console.error("Error updating event:", error);
       }
     );
+    setOpen(false);
+    onClose();
   };
 
   return (
@@ -496,17 +500,16 @@ const EditEventDiv = styled.div`
       font-size: 16px;
     }
     .submitBtn {
-    background-color: #007bff;
-    &:hover {
-      background-color: #2b68a9;
+      background-color: #007bff;
+      &:hover {
+        background-color: #2b68a9;
+      }
     }
-  }
-  .cancelBtn{
+    .cancelBtn {
       background-color: red;
-      &:hover{
-      background-color: #a83c3c;
+      &:hover {
+        background-color: #a83c3c;
       }
     }
   }
-  
 `;

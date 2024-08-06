@@ -4,7 +4,8 @@ const clientRouter = express.Router();
 
 clientRouter.get("/", async (req, res) => {
   try {
-    let query = {};
+    if(req.query.searchQuery){
+      let query = {};
     if (req.query.searchQuery) {
       query = {
         $or: [
@@ -15,6 +16,11 @@ clientRouter.get("/", async (req, res) => {
     }
     const clients = await ClientModel.find(query);
     res.status(200).send(clients);
+    }
+    else{
+      const client = await ClientModel.find();
+      res.status(200).send(client);
+    }
   } catch (error) {
     res.status(400).send({ msg: "Clients not found" });
   }

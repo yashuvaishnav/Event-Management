@@ -19,7 +19,6 @@ export const fetchTestimonialData = () => (dispatch) => {
     .get(`http://localhost:8080/clientsuggestions`)
     .then((res) => {
       dispatch({ type: FETCH_TESTIMONIAL_DATA, payload: res.data });
-      // console.log(res);
     })
     .catch((err) => {
       dispatch(getTestimonialError());

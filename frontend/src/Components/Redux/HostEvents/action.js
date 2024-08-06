@@ -5,7 +5,6 @@ export const postEventData =
     axios
       .post(`http://localhost:8080/events/event`, hostEventData)
       .then((res) => {
-        console.log(res.data);
         showSuccessToast(res.data.msg);
         setTimeout(() => {
           navigate("/adminDashboard");

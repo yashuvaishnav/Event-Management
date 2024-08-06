@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { Footer } from "./Footer";
 import { Loader } from "../Components/Loader/Loading";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { fetchGoogleEventsData } from "../Components/Redux/DummyGoogleAuth/action";
@@ -13,6 +12,7 @@ export const HomePage = () => {
   const { googleEventsData, isLoading } = useSelector((store) => {
     return {
       googleEventsData: store.googleEventReducer.googleEventsData,
+      isLoading : store.googleEventReducer.isLoading,
     };
   }, shallowEqual);
 

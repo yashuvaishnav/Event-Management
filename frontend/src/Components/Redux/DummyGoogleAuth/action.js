@@ -34,8 +34,8 @@ export const patchAttendees = (eventNormalId, updatedEventData) => () => {
       updatedEventData
     )
     .then((res) => {
-      // console.log(res.data);
-      // showSuccessToast(res.data);
+      console.log(res.data);
+      showSuccessToast(res.data);
     })
     .catch((err) => {
       showErrorToast(err.response.data.msg);

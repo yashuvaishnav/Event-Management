@@ -44,6 +44,7 @@ googleRouter.patch("/update/:id", async (req, res) => {
       updatedData,
       options
     );
+    console.log(result);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

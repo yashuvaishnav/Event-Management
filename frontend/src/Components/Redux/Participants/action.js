@@ -15,7 +15,8 @@ const getParticipantsError = () => {
 
 export const getParticipantsData = (searchQuery) => (dispatch) => {
   dispatch(getParticipantsRequest());
-  axios
+  if(searchQuery){
+    axios
     .get(`http://localhost:8080/clients/?searchQuery=${searchQuery}`)
     .then((res) => {
       dispatch({ type: GET_PARTICIPANTS_SUCCESS, payload: res.data });
@@ -23,6 +24,17 @@ export const getParticipantsData = (searchQuery) => (dispatch) => {
     .catch((err) => {
       dispatch(getParticipantsError());
     });
+  }
+  else{
+    axios
+    .get(`http://localhost:8080/clients/`)
+    .then((res) => {
+      dispatch({ type: GET_PARTICIPANTS_SUCCESS, payload: res.data });
+    })
+    .catch((err) => {
+      dispatch(getParticipantsError());
+    });
+  }
 };
 
 export const postMail =

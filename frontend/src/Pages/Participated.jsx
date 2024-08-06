@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Loader } from "../Components/Loader/Loading";
 import { SiGmail } from "react-icons/si";
-import { Toastify } from "../Components/Toast/Toastify";
+import { showSuccessToast, Toastify } from "../Components/Toast/Toastify";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
   getParticipatedData,
@@ -110,6 +110,7 @@ export const Participated = () => {
         { attendance }
       );
       console.log(res);
+      showSuccessToast("Attendance update successfully")
 
       const updatedFilteredParticipatedData = filteredParticipatedData.map(
         (item) => (item._id === id ? { ...item, attendance } : item)
