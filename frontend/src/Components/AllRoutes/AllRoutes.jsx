@@ -18,9 +18,9 @@ import { DummyGoogleCalendar } from "../../Pages/DummyGoogleCalendar";
 import { AdminNavbar } from "../../Pages/AdminNavbar";
 import { Navbar } from "../../Pages/Navbar";
 import { Footer } from "../../Pages/Footer";
+import { showSuccessToast } from "../Toast/Toastify";
 
 export const AllRoutes = () => {
-  const [accessTokenTemp, setAccessTokenTemp] = useState("");
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [tokenClient, setTokenClient] = useState(null);
 
@@ -37,10 +37,6 @@ export const AllRoutes = () => {
   useEffect(() => {
     gisLoaded();
   }, []);
-
-  // useEffect(() => {
-  //   tokenCheck();
-  // }, [accessTokenTemp]);
 
   function tokenCheck() {
     const storedAccessToken = localStorage.getItem("access_token");
@@ -83,13 +79,12 @@ export const AllRoutes = () => {
       if (resp.error !== undefined) {
         throw resp;
       }
-      console.log("gisLoaded11", gapi.client.getToken());
+      // console.log("gisLoaded11", gapi.client.getToken());
       // console.log("resp", resp);
 
       const { access_token, expires_in } = gapi.client.getToken();
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("expires_in", expires_in);
-      setAccessTokenTemp(access_token);
       setIsAuthorized(true);
     };
 
@@ -109,10 +104,11 @@ export const AllRoutes = () => {
       google.accounts.oauth2.revoke(storedAccessToken, () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("expires_in");
-        setAccessTokenTemp("");
+        localStorage.removeItem("event");
         setIsAuthorized(false);
       });
     }
+    showSuccessToast("Unauthorized");
   }
 
   const location = useLocation();
@@ -124,10 +120,16 @@ export const AllRoutes = () => {
     "/dummyHostEvent",
   ];
 
-
   return (
     <div>
-        {pathArr.includes(location.pathname) ? <AdminNavbar isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized} /> : <Navbar />}
+      {pathArr.includes(location.pathname) ? (
+        <AdminNavbar
+          isAuthorized={isAuthorized}
+          setIsAuthorized={setIsAuthorized}
+        />
+      ) : (
+        <Navbar />
+      )}
       <Routes>
         {/* Routes */}
         <Route path="/" element={<HomePage />} />

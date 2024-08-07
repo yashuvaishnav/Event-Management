@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { FaRegWindowClose } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Box, Modal } from "@mui/material";
-import { updateGoogleEvent } from "../Redux/DummyGoogleAuth/action";
 import { useDispatch } from "react-redux";
 import { GoInfo } from "react-icons/go";
+import { updateGoogleEvent } from "../Redux/DummyGoogleAuth/action";
 
 const style = {
   position: "absolute",
@@ -34,9 +34,6 @@ export const Popup = ({ show, onClose, event, gapi }) => {
   const handleMail = () => {
     localStorage.setItem("event", JSON.stringify(event));
     navigate("/participants");
-  };
-  const openEditModal = () => {
-    setOpen(true);
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -98,9 +95,8 @@ export const Popup = ({ show, onClose, event, gapi }) => {
     });
     request.execute(
       (response) => {
-        console.log(response);
         if (response.status === "confirmed") {
-          dispatch(updateGoogleEvent(obj));
+          dispatch(updateGoogleEvent(obj))
         }
       },
       (error) => {
@@ -176,7 +172,7 @@ export const Popup = ({ show, onClose, event, gapi }) => {
               <button
                 className="sendMailAndEditBtn"
                 id="editBtn"
-                onClick={openEditModal}
+                onClick={()=>setOpen(true)}
               >
                 Edit Event
               </button>
@@ -313,7 +309,7 @@ export const Popup = ({ show, onClose, event, gapi }) => {
                 <button className="submitBtn" type="submit">
                   Submit
                 </button>
-                <button className="cancelBtn">Cancel</button>
+                <button className="cancelBtn" onClick={()=>setOpen(false)}>Cancel</button>
               </div>
             </form>
           </EditEventDiv>

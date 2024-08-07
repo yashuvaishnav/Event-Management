@@ -25,7 +25,7 @@ export const getParticipatedData = (searchQuery) => (dispatch) => {
       dispatch(getParticipatedError());
     });
 };
-export const sendThankYouMail = (client) => (dispatch) => {
+export const sendThankYou = (client) => (dispatch) => {
     let obj = {
       name: client.name,
       email: client.email,

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { createGoogleEvent } from "../Components/Redux/DummyGoogleAuth/action";
+import { useNavigate } from "react-router-dom";
 
 export const DummyGoogleCalendar = ({ gapi }) => {
   const [personName, setPersonName] = useState("");
@@ -26,6 +27,7 @@ export const DummyGoogleCalendar = ({ gapi }) => {
     supportPerson: [{ name: "", task: "" }],
     equipmentList: [],
   });
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleAddSupportPerson = () => {
@@ -83,24 +85,29 @@ export const DummyGoogleCalendar = ({ gapi }) => {
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEventDetails({
-      ...eventDetails,
+    setEventDetails((prevDetails) => ({
+      ...prevDetails,
       [name]: name === "participantsLimit" ? Number(value) : value,
-    });
+    }));
   };
-
+  const getInputValue = (date) => {
+    if (!date) return "";
+    return date;
+  };
   const addManualEvent = async (e) => {
     e.preventDefault();
+    const startDateTime = `${eventDetails.start}T19:00:00+05:30`;
+    const endDateTime = `${eventDetails.end}T20:00:00+05:30`;
     const eventData = {
       location: `${eventDetails.location}`,
       summary: `${eventDetails.summary}`,
       description: `${eventDetails.description}`,
       start: {
-        dateTime: new Date(`${eventDetails.start}T19:00:00+05:30`),
+        dateTime: startDateTime,
         timeZone: "Asia/Kolkata",
       },
       end: {
-        dateTime: new Date(`${eventDetails.start}T20:00:00+05:30`),
+        dateTime: endDateTime,
         timeZone: "Asia/Kolkata",
       },
       accessToken: localStorage.getItem("access_token"),
@@ -113,11 +120,9 @@ export const DummyGoogleCalendar = ({ gapi }) => {
     });
     request.execute(
       (event) => {
-        console.log("event", event);
         const cleanSupportPerson = eventDetails.supportPerson.filter(
           (person) => person.name && person.task
         );
-
         const obj = {
           ...eventDetails,
           key: event.id,
@@ -125,7 +130,7 @@ export const DummyGoogleCalendar = ({ gapi }) => {
           supportPerson: cleanSupportPerson,
         };
         if (event.status === "confirmed") {
-          dispatch(createGoogleEvent(obj));
+          dispatch(createGoogleEvent(obj,navigate));
         } else {
           showErrorToast("Something went wrong");
         }
@@ -151,6 +156,7 @@ export const DummyGoogleCalendar = ({ gapi }) => {
       }
     );
   };
+
 
   return (
     <MainDiv>
@@ -209,20 +215,20 @@ export const DummyGoogleCalendar = ({ gapi }) => {
                 </div>
                 <div style={{ gridArea: "e" }}>
                   <input
-                    type="text"
+                    type="date"
                     name="start"
                     placeholder="Start Date And Time"
-                    value={eventDetails.start}
+                    value={getInputValue(eventDetails.start)}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
                 <div style={{ gridArea: "f" }}>
                   <input
-                    type="text"
+                    type="date"
                     name="end"
                     placeholder="End Date And Time"
-                    value={eventDetails.end}
+                    value={getInputValue(eventDetails.end)}
                     onChange={handleInputChange}
                     required
                   />

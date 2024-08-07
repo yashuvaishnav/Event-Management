@@ -1,88 +1,63 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Loader } from "../Components/Loader/Loading";
 import { SiGmail } from "react-icons/si";
-import { showSuccessToast, Toastify } from "../Components/Toast/Toastify";
+import { Toastify } from "../Components/Toast/Toastify";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import {
-  getParticipatedData,
-  sendThankYouMail,
-} from "../Components/Redux/Participated/action";
-import { fetchEventsData } from "../Components/Redux/Events/action";
-import { fetchGoogleEventsData } from "../Components/Redux/DummyGoogleAuth/action";
+import { fetchGoogleEventsData, sendThankYouMail, updateAttedance } from "../Components/Redux/DummyGoogleAuth/action";
 import { GoInfo } from "react-icons/go";
-
 
 export const Participated = () => {
   const [filteredParticipatedData, setFilteredParticipatedData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedEventId, setSelectedEventId] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const itemsPerPage = 8;
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+  const itemsPerPage = 5;
   const [showPopup, setShowPopup] = useState(false);
 
   const dispatch = useDispatch();
 
-  const { participatedsData, isLoading, eventsData } = useSelector((store) => {
+  const { googleEventsData, isLoading } = useSelector((store) => {
     return {
-      participatedsData: store.participatedReducer.participatedData,
-      isLoading: store.participatedReducer.isLoading,
-      eventsData: store.eventReducer.eventsData,
+      googleEventsData: store.googleEventReducer.googleEventsData,
+      isLoading: store.googleEventReducer.isLoading,
     };
   }, shallowEqual);
-  useEffect(() => {
-    dispatch(getParticipatedData(searchQuery));
-    dispatch(fetchEventsData());
-  }, []);
-
-  // const { googleEventsData } = useSelector((store) => {
-  //   return {
-  //     googleEventsData: store.googleEventReducer.googleEventsData,
-  //     isLoading: store.googleEventReducer.isLoading,
-  //   };
-  // }, shallowEqual);
-
-  // useEffect(() => {
-  //   dispatch(fetchGoogleEventsData());
-  // }, []);
 
   useEffect(() => {
-    let initialFilteredData2 = participatedsData;
-    if (selectedEventId === "" && eventsData.length > 0) {
-      initialFilteredData2 = initialFilteredData2.filter(
-        (item) => item.eventId === eventsData[0]._id
-      );
+    dispatch(fetchGoogleEventsData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    let filteredData = [];
+    if (selectedEventId === "" && googleEventsData.length > 0) {
+      filteredData = googleEventsData[0].attendees || [];
     } else if (selectedEventId !== "") {
-      initialFilteredData2 = initialFilteredData2.filter(
-        (item) => item.eventId === selectedEventId
+      const selectedEvent = googleEventsData.find(
+        (event) => event._id === selectedEventId
       );
+      if (selectedEvent) {
+        filteredData = selectedEvent.attendees || [];
+      }
     }
-    setFilteredParticipatedData(initialFilteredData2);
-  }, [participatedsData, selectedEventId, eventsData]);
-
-  useEffect(() => {
-    let filteredData = participatedsData;
-    if (selectedEventId === "" && eventsData.length > 0) {
-      filteredData = filteredData.filter(
-        (item) => item.eventId === eventsData[0]._id
-      );
-    } else if (selectedEventId !== "") {
-      filteredData = filteredData.filter(
-        (item) => item.eventId === selectedEventId
-      );
-    }
-
-    if (searchQuery !== "") {
-      filteredData = filteredData.filter(
-        (item) =>
-          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.companyName.toLowerCase().includes(searchQuery.toLowerCase())
+    if (debouncedSearchQuery) {
+      filteredData = filteredData.filter((attendee) =>
+        // attendee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        // attendee.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        attendee.email.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     setFilteredParticipatedData(filteredData);
-    setCurrentPage(1);
-  }, [participatedsData, selectedEventId, searchQuery, eventsData]);
+  }, [selectedEventId, debouncedSearchQuery, googleEventsData]);
 
   const handleNextPage = () => {
     if (
@@ -103,19 +78,17 @@ export const Participated = () => {
     currentPage * itemsPerPage
   );
 
-  const handleAttendance = async (attendance, id) => {
-    try {
-      const res = await axios.put(
-        `http://localhost:8080/clientForEvent/attendance/${id}`,
-        { attendance }
-      );
-      console.log(res);
-      showSuccessToast("Attendance update successfully")
+  const handleAttendance = async (attendance, client) => {
 
-      const updatedFilteredParticipatedData = filteredParticipatedData.map(
-        (item) => (item._id === id ? { ...item, attendance } : item)
-      );
-      setFilteredParticipatedData(updatedFilteredParticipatedData);
+    const selectedEvent = googleEventsData.find(
+      (event) => event._id === (selectedEventId === "" ? googleEventsData[0]._id : selectedEventId )
+    );
+    let obj = {
+      attendance : attendance,
+      client : client
+    }
+    try {
+      dispatch(updateAttedance(obj,selectedEvent))
     } catch (error) {
       console.log(error);
     }
@@ -148,13 +121,13 @@ export const Participated = () => {
               onChange={(e) => setSelectedEventId(e.target.value)}
             >
               <option value="">Select Events</option>
-              {eventsData.map((event) => (
+              {googleEventsData.map((event) => (
                 <option
                   key={event._id}
                   value={event._id}
                   className="selectedOption"
                 >
-                  {event.eventTitle}
+                  {event.summary}
                 </option>
               ))}
             </select>
@@ -173,7 +146,6 @@ export const Participated = () => {
                   <th className="serialNo">S.No</th>
                   <th>Attendance</th>
                   <th>Name</th>
-                  <th>Company Name</th>
                   <th>Email</th>
                   <th>Contact</th>
                   <th className="sendMailHead">
@@ -184,7 +156,8 @@ export const Participated = () => {
                       onMouseLeave={() => setShowPopup(false)}
                     />
                     <ShowInfo visible={showPopup}>
-                      For sending thank you and feedback form click the send mail button.
+                      For sending thank you and feedback form click the send
+                      mail button.
                     </ShowInfo>
                   </th>
                 </tr>
@@ -193,19 +166,21 @@ export const Participated = () => {
                 {currentData.length > 0 ? (
                   currentData.map((client, i) => (
                     <tr key={i}>
-                      <td className="serialNo">{(currentPage - 1) * itemsPerPage + i + 1}</td>
+                      <td className="serialNo">
+                        {(currentPage - 1) * itemsPerPage + i + 1}
+                      </td>
                       <td>
                         <input
                           type="checkbox"
                           className="checkbox"
                           checked={client.attendance}
                           onChange={(e) =>
-                            handleAttendance(e.target.checked, client._id)
+                            handleAttendance(e.target.checked, client)
                           }
+                          readOnly
                         />
                       </td>
                       <td>{client.name}</td>
-                      <td>{client.companyName}</td>
                       <td>{client.email}</td>
                       <td>{client.contact}</td>
                       <td className="send-mail">
@@ -318,11 +293,11 @@ const MainDiv = styled.div`
     font-weight: bold;
     font-size: 18px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    .sendMailHead{
+    .sendMailHead {
       display: flex;
       justify-content: center;
       align-items: center;
-      svg{
+      svg {
         margin-left: 5px;
       }
     }
@@ -344,10 +319,10 @@ const MainDiv = styled.div`
       align-items: center;
     }
   }
-  .client-table thead .serialNo{
+  .client-table thead .serialNo {
     text-align: center;
   }
-  .client-table tbody .serialNo{
+  .client-table tbody .serialNo {
     text-align: center;
   }
 
@@ -365,7 +340,7 @@ const MainDiv = styled.div`
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    svg{
+    svg {
       font-size: 20px;
     }
     &:hover {
@@ -373,8 +348,8 @@ const MainDiv = styled.div`
     }
     svg {
       font-size: 20px;
-      &:hover{
-        color:#5bef4a ;
+      &:hover {
+        color: #5bef4a;
       }
     }
   }
@@ -415,6 +390,6 @@ const ShowInfo = styled.div`
   transition: opacity 0.3s;
   white-space: nowrap;
   left: 80%;
-  top:20% ;
+  top: 20%;
   transform: translate(-50%, -50%);
 `;

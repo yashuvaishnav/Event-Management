@@ -3,14 +3,12 @@ import styled from "styled-components";
 import { SiGmail } from "react-icons/si";
 import { Loader } from "../Components/Loader/Loading";
 import {
-  Toastify,
   showErrorToast,
-  showSuccessToast,
+  Toastify,
 } from "../Components/Toast/Toastify";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getParticipantsData } from "../Components/Redux/Participants/action";
-import { patchAttendees } from "../Components/Redux/DummyGoogleAuth/action";
-import axios from "axios";
+import { getGoogleEventsDataById, patchAttendees } from "../Components/Redux/DummyGoogleAuth/action";
 import { GoInfo } from "react-icons/go";
 
 export const ClientParticipants = () => {
@@ -24,10 +22,11 @@ export const ClientParticipants = () => {
   const dispatch = useDispatch();
   const gapi = window.gapi;
 
-  const { participantsData, isLoading } = useSelector((store) => {
+  const { participantsData, isLoading,singleEventData } = useSelector((store) => {
     return {
       participantsData: store.participantsReducer.participantsData,
       isLoading: store.participantsReducer.isLoading,
+      singleEventData : store.googleEventReducer.singleEventData
     };
   }, shallowEqual);
 
@@ -80,18 +79,11 @@ export const ClientParticipants = () => {
         resource: { attendees },
         sendUpdates: "all",
       });
-
-      console.log("Invitation sent to", clientDataEmail);
-      showSuccessToast("Invitation sent successfully");
-
-      const localEventResponse = await axios.get(
-        `http://localhost:8080/calender/${eventNormalId}`
-      );
-      const localEventData = localEventResponse.data;
+      dispatch(getGoogleEventsDataById(eventNormalId))
       const updatedEventData = {
-        ...localEventData,
+        ...singleEventData,
         attendees: [
-          ...(localEventData.attendees || []),
+          ...(singleEventData.attendees),
           {
             email: clientDataEmail,
             responseStatus: "needsAction",
@@ -101,7 +93,8 @@ export const ClientParticipants = () => {
           },
         ],
       };
-      dispatch(patchAttendees(eventNormalId, updatedEventData));
+      dispatch(patchAttendees(eventNormalId, updatedEventData,clientDataEmail));
+
     } catch (error) {
       console.error("Error sending invitation or updating event", error);
       showErrorToast("Error sending invitation or updating event");
