@@ -10,6 +10,7 @@ const { clientRouter } = require("./Routes/clientRoute");
 const { mailRouter } = require("./Mail/gmail");
 const { clientForEventRouter } = require("./Routes/clientForEventsRouter");
 const { googleRouter } = require("./Routes/googleEventRouter");
+const { hotelRouter } = require("./Routes/hotelRoute");
 
 app.use(
   cors({
@@ -25,6 +26,7 @@ app.use("/clients", clientRouter);
 app.use("/clientForEvent", clientForEventRouter);
 app.use("/mails", mailRouter);
 app.use("/calender", googleRouter);
+app.use("/hotel", hotelRouter);
 
 app.get("/", (req, res) => {
   res.send("server is working");

@@ -4,6 +4,7 @@ import {
   GET_PARTICIPANTS_REQUEST,
   GET_PARTICIPANTS_SUCCESS,
 } from "./actionTypes";
+import { showErrorToast, showSuccessToast } from "../../Toast/Toastify";
 
 const getParticipantsRequest = () => {
   return { type: GET_PARTICIPANTS_REQUEST };
@@ -35,6 +36,19 @@ export const getParticipantsData = (searchQuery) => (dispatch) => {
     });
   }
 };
+
+export const postClientsData = (client) => (dispatch) => {
+    axios
+    .post(`http://localhost:8080/clients/registration`,client)
+    .then((res) => {
+      showSuccessToast(res.data.msg)
+      console.log(res.data.msg);
+    })
+    .catch((err) => {
+      showErrorToast("Something went wrong");
+    });
+};
+
 
 // export const postMail =
 //   (client, parseEventsData, showSuccessToast, showErrorToast) => (dispatch) => {

@@ -167,7 +167,7 @@ export const Participated = () => {
                   currentData.map((client, i) => (
                     <tr key={i}>
                       <td className="serialNo">
-                        {(currentPage - 1) * itemsPerPage + i + 1}
+                        {(currentPage - 1) * itemsPerPage + i + 1})
                       </td>
                       <td>
                         <input
@@ -252,13 +252,16 @@ const MainDiv = styled.div`
         border-radius: 5px;
       }
       select {
-        width: 30%;
+        width: 40%;
         padding: 8px;
         border-radius: 5px;
         font-size: 16px;
         outline: none;
         border: 2px solid #cccc;
         cursor: pointer;
+        option{
+          margin:10px ;
+        }
       }
       .resetBtn {
         padding: 8px 15px;
@@ -319,16 +322,16 @@ const MainDiv = styled.div`
       align-items: center;
     }
   }
-  .client-table thead .serialNo {
+  .clientDataTable thead .serialNo {
     text-align: center;
   }
-  .client-table tbody .serialNo {
+  .clientDataTable tbody .serialNo {
     text-align: center;
   }
 
   .clientDataTable th,
   .clientDataTable td {
-    padding: 18px;
+    padding: 12px;
     text-align: left;
     border-bottom: 2px solid #cccc;
   }
@@ -393,3 +396,9 @@ const ShowInfo = styled.div`
   top: 20%;
   transform: translate(-50%, -50%);
 `;
+
+
+// https://www.qrcode-monkey.com/qr-code-api-with-logo/
+
+// <muskaan.tekriwal@masaischool.com>
+// ankitha.basappa@masaischool.com
