@@ -121,7 +121,7 @@ const MainDiv = styled.div`
     background-image: url("https://www.siww.com.sg/qql/slot/u143/2021/Landing%20Page/SIWW%202018/Photos/Open%20Address%20DPM%20Tharman%20Shanmugaratnam/Open%20Address%20DPM%20Tharman%20Shanmugaratnam/img_6781.jpg");
   }
   .cardDiv:nth-child(4)::before {
-    background-image: url("https://th.bing.com/th/id/OIP.93VBmwcwNUZ8VYmljHMUXwAAAA?rs=1&pid=ImgDetMain");
+    background-image: url("https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?cs=srgb&dl=audience-band-celebration-1190298.jpg&fm=jpg");
   }
   .cardDiv:nth-child(5)::before {
     background-image: url("https://mirageparties.co.uk/wp-content/uploads/2019/05/Essex-Luxury-Marquee-Party.jpg");
