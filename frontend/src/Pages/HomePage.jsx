@@ -31,7 +31,7 @@ export const HomePage = () => {
       <>
         <div className="celebrationDiv">
           <div className="celebrateDescribe">
-            <h1>Welcome to Ceoitbox Event Management </h1>
+            <h1>Welcome to GatherPro Event Management </h1>
             <p>
               Boost your productivity to new heights with our intuitive and
               powerful tools. Stay organized, meet deadlines, and achieve your

@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SiGmail } from "react-icons/si";
 import { Loader } from "../Components/Loader/Loading";
-import {
-  showErrorToast,
-  Toastify,
-} from "../Components/Toast/Toastify";
+import { showErrorToast, Toastify } from "../Components/Toast/Toastify";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getParticipantsData } from "../Components/Redux/Participants/action";
-import { getGoogleEventsDataById, patchAttendees } from "../Components/Redux/DummyGoogleAuth/action";
+import {
+  getGoogleEventsDataById,
+  patchAttendees,
+} from "../Components/Redux/DummyGoogleAuth/action";
 import { GoInfo } from "react-icons/go";
+import { LuRefreshCcw } from "react-icons/lu";
 
 export const ClientParticipants = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,13 +23,16 @@ export const ClientParticipants = () => {
   const dispatch = useDispatch();
   const gapi = window.gapi;
 
-  const { participantsData, isLoading,singleEventData } = useSelector((store) => {
-    return {
-      participantsData: store.participantsReducer.participantsData,
-      isLoading: store.participantsReducer.isLoading,
-      singleEventData : store.googleEventReducer.singleEventData
-    };
-  }, shallowEqual);
+  const { participantsData, isLoading, singleEventData } = useSelector(
+    (store) => {
+      return {
+        participantsData: store.participantsReducer.participantsData,
+        isLoading: store.participantsReducer.isLoading,
+        singleEventData: store.googleEventReducer.singleEventData,
+      };
+    },
+    shallowEqual
+  );
 
   useEffect(() => {
     const delaySearch = setTimeout(() => {
@@ -60,6 +64,9 @@ export const ClientParticipants = () => {
     const eventNormalId = googleEventsData._id;
     const clientDataName = client.name;
     const clientDataContact = client.contact;
+    const clientDataCompanyName = client.companyName;
+    const clientDataDesignation = client.designation;
+    const clientDataCompanyType = client.companyType;
 
     try {
       const response = await gapi.client.calendar.events.get({
@@ -79,22 +86,26 @@ export const ClientParticipants = () => {
         resource: { attendees },
         sendUpdates: "all",
       });
-      dispatch(getGoogleEventsDataById(eventNormalId))
+      dispatch(getGoogleEventsDataById(eventNormalId));
       const updatedEventData = {
         ...singleEventData,
         attendees: [
-          ...(singleEventData.attendees),
+          ...singleEventData.attendees,
           {
             email: clientDataEmail,
             responseStatus: "needsAction",
             attendance: false,
             name: clientDataName,
             contact: clientDataContact,
+            companyName: clientDataCompanyName,
+            companyType: clientDataCompanyType,
+            designation: clientDataDesignation,
           },
         ],
       };
-      dispatch(patchAttendees(eventNormalId, updatedEventData,clientDataEmail));
-
+      dispatch(
+        patchAttendees(eventNormalId, updatedEventData, clientDataEmail)
+      );
     } catch (error) {
       console.error("Error sending invitation or updating event", error);
       showErrorToast("Error sending invitation or updating event");
@@ -111,17 +122,16 @@ export const ClientParticipants = () => {
       <div className="clientDataAndPagination">
         <div className="heading">
           <p> For Events Participants</p>
-          <div className="searchClient">
+          <div className="searchAndReset">
             <input
               type="text"
-              className="searchClient"
-              placeholder="Search by email"
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button className="resetBtn" onClick={handleReset}>
-              Reset
-            </button>
+            <div>
+              <LuRefreshCcw onClick={handleReset} />
+            </div>
           </div>
         </div>
 
@@ -129,55 +139,68 @@ export const ClientParticipants = () => {
           {isLoading ? (
             <Loader />
           ) : (
-            <table className="client-table">
-              <thead>
-                <tr>
-                  <th className="serialNo">S.No</th>
-                  <th>Name</th>
-                  <th>Company Name</th>
-                  <th>Email</th>
-                  <th>Contact</th>
-                  <th className="sendMailHead">
-                    Send Email{" "}
-                    <GoInfo
-                      size={18}
-                      onMouseEnter={() => setShowPopup(true)}
-                      onMouseLeave={() => setShowPopup(false)}
-                    />
-                    <ShowInfo visible={showPopup}>
-                      For sending invitations click the send mail button.
-                    </ShowInfo>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentData.length > 0 ? (
-                  currentData.map((client, i) => (
-                    <tr key={i}>
-                      <td className="serialNo">
-                        {(currentPage - 1) * itemsPerPage + i + 1})
-                      </td>
-                      <td>{client.name}</td>
-                      <td>{client.companyName}</td>
-                      <td>{client.email}</td>
-                      <td>{client.contact}</td>
-                      <td className="send-mail">
-                        <button
-                          className="mail-btn"
-                          onClick={() => sendMail(client)}
-                        >
-                          <SiGmail />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
+            <TableContainer>
+              <table>
+                <thead>
                   <tr>
-                    <td colSpan={7}>No Data Available</td>
+                    <th className="selectAllInput">
+                      <button>Select All</button>
+                    </th>
+                    <th>Name</th>
+                    <th>Company Name</th>
+                    <th>Designation</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Company Type</th>
+                    <th className="sendMailHead">
+                      Send Email{" "}
+                      <GoInfo
+                        size={18}
+                        onMouseEnter={() => setShowPopup(true)}
+                        onMouseLeave={() => setShowPopup(false)}
+                      />
+                      <ShowInfo visible={showPopup}>
+                        For sending invitations click the send mail button.
+                      </ShowInfo>
+                    </th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+
+                <tbody>
+                  {currentData.length > 0 ? (
+                    currentData.map((client, i) => (
+                      <tr key={i}>
+                        <td className="selectAllInput">
+                          <input type="checkbox" />
+                        </td>
+                        <td>{client.name}</td>
+                        <td>{client.companyName}</td>
+                        <td>
+                          {client.designation != "" ? client.designation : ""}
+                        </td>
+                        <td>{client.email}</td>
+                        <td>{client.contact}</td>
+                        <td>
+                          {client.companyType != "" ? client.companyType : ""}
+                        </td>
+                        <td className="send-mail">
+                          <button
+                            className="mail-btn"
+                            onClick={() => sendMail(client)}
+                          >
+                            <SiGmail />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={8} className="noDataAvailable">No Data Available</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </TableContainer>
           )}
         </div>
         <PaginationContainer>
@@ -202,113 +225,137 @@ export const ClientParticipants = () => {
 const MainDiv = styled.div`
   .heading {
     display: flex;
-    width: 80%;
-    align-items: center;
     justify-content: space-between;
-    margin: 10px auto;
+    align-items: center;
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
     p {
       font-size: 1.5rem;
-      font-weight: 500;
+      font-weight: bold;
       color: #868686;
     }
-    .searchClient {
+    .searchAndReset {
       display: flex;
-      justify-content: end;
       align-items: center;
-      gap: 20px;
-      /* border: 1px solid black; */
-      width: 60%;
+      gap: 10px;
       input {
-        width: 30%;
-        padding: 8px 0px 8px 10px;
-        font-size: 16px;
-        border: 1px solid #868383cc;
+        background-color: #f8fafb;
+        border: none;
+        border-radius: 5px;
         outline: none;
-        border-radius: 5px;
+        padding: 10px;
+        font-weight: 500;
       }
-      .resetBtn {
-        padding: 8px 15px;
-        font-size: 16px;
-        font-weight: 400;
-        border: 2px solid #cccc;
+      div {
+        background-color: #f8fafb;
+        padding: 10px;
         border-radius: 5px;
-        background: none;
-        cursor: pointer;
         &:hover {
-          background-color: #cccc;
+          cursor: pointer;
         }
       }
     }
   }
+`;
+const TableContainer = styled.div`
+  width: 90%;
+  margin: auto;
+  table {
+    width: 100%;
+    background-color: #f8fafb;
+    border-radius: 8px;
+    border-collapse: collapse;
+    thead {
+      .selectAllInput {
+        text-align: center;
+        button {
+          background: none;
+          outline: none;
+          border: none;
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 16px;
+        }
+      }
+      .sendMailHead {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg {
+          margin-left: 5px;
+        }
+      }
+      th {
+        border-right: 1px solid #cccc;
+        padding: 12px;
+        text-align: left;
+      }
+      th:nth-child(2) {
+        width: 150px;
+      }
 
-  .client-table {
-    width: 80%;
-    margin: auto;
-    border-collapse: separate;
-    border-spacing: 0 0px; // Adds space between rows
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
-      rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  }
-
-  .client-table thead tr {
-    font-weight: bold;
-    font-size: 18px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    .sendMailHead {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      svg {
-        margin-left: 5px;
+      th:nth-child(3) {
+        width: 200px;
+      }
+      th:last-child {
+        border-right: none;
       }
     }
-    th {
-      padding: 5px;
-    }
-  }
-
-  .client-table tbody tr {
-    font-weight: 400;
-    font-size: 16px;
-    color: black;
-    &:hover {
-      background-color: #a1bee0;
-    }
-    td {
-      padding: 5px;
-    }
-
-    .send-mail {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  .client-table thead .serialNo {
-    text-align: center;
-  }
-  .client-table tbody .serialNo {
-    text-align: center;
-  }
-  .client-table th,
-  .client-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 2px solid #cccc;
-  }
-  .mail-btn {
-    padding: 6px 12px;
-    color: black;
-    background: none;
-    font-size: 18px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
-    svg {
-      font-size: 20px;
+    tbody {
+      tr {
+        &:hover {
+          background: #e4e3e3cc;
+        }
+      }
+      tr:nth-child(odd) {
+        background-color: #fbfcfb;
+        &:hover {
+          background: #e4e3e3cc;
+        }
+      }
+      .selectAllInput {
+        text-align: center;
+        input {
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+      }
+      .send-mail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .mail-btn {
+          padding: 6px 12px;
+          color: black;
+          background: none;
+          font-size: 18px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          &:hover {
+            text-decoration: underline;
+          }
+          svg {
+            font-size: 20px;
+          }
+        }
+      }
+      td {
+        border-right: 1px solid #cccc;
+        padding: 8px 12px;
+        text-align: left;
+      }
+      td:last-child {
+        border-right: none;
+      }
+      tr {
+        .noDataAvailable {
+          text-align: center;
+          padding: 16px 0px;
+        }
+      }
     }
   }
 `;

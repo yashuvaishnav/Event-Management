@@ -43,7 +43,7 @@ export const Footer = () => {
                     color: "#fff",
                   }}
                 >
-                  CEOITBOX
+                  GATHERPRO
                 </Typography>
               </Box>
               {/*Social  Logo */}
@@ -57,7 +57,7 @@ export const Footer = () => {
                 }}
               >
                 <a
-                  href="https://www.instagram.com/sanjeevjain_coach/"
+                  href="https://www.instagram.com/yashuvaishnav2299/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -72,7 +72,7 @@ export const Footer = () => {
                 </a>
 
                 <a
-                  href="https://www.youtube.com/@SanjeevJainCBX"
+                  href=""
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -87,7 +87,7 @@ export const Footer = () => {
                 </a>
 
                 <a
-                  href="https://www.facebook.com/ceoitbox/"
+                  href="https://www.facebook.com/yash.vaishnav.7146"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -102,7 +102,7 @@ export const Footer = () => {
                 </a>
 
                 <a
-                  href="https://www.linkedin.com/in/sjtns"
+                  href="https://www.linkedin.com/in/yash-vaishnav-b55473261/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -126,7 +126,7 @@ export const Footer = () => {
                   }}
                 >
                   <span style={{ fontSize: "16px", fontWeight: "600" }}>©</span>{" "}
-                  2024 CEOITBOX All Rights Reserved
+                  2024 GATHERPRO All Rights Reserved
                 </Typography>
               </Box>
             </Box>
@@ -157,7 +157,7 @@ export const Footer = () => {
                     mt: 1,
                   }}
                 >
-                  CEOITBOX TECH SERVICES LLP
+                  GATHERPRO TECH SERVICES LTD
                 </Typography>
                 <Typography
                   sx={{
@@ -169,7 +169,7 @@ export const Footer = () => {
                     width: "200px",
                   }}
                 >
-                  293, Dhanmill Road, Chattarpur Hills, New Delhi-110074
+                  412, 2 floor LBS Road, Chattarpur Hills, New Delhi-110074
                 </Typography>
               </Box>
               <Box className="needHelpBox">
@@ -213,13 +213,7 @@ export const Footer = () => {
                     },
                   }}
                 >
-                  {/* <a
-                    style={{ textDecoration: "none", color: "inherit" }}
-                    href="https://mail.google.com/mail/?view=cm&fs=1&to=access@ceoitbox.in&su=Enquiry on CBX START&body="
-                    target="_blank"
-                  > */}
                   Testimonial
-                  {/* </a> */}
                 </Typography>
                 <Typography
                   sx={{

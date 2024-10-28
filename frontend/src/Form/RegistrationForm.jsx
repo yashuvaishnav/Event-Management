@@ -13,7 +13,7 @@ export const RegistrationForm = () => {
     companyName: "",
     contact: "",
     email: "",
-    companySize: "",
+    designation: "",
     companyType: "",
     attendance: false,
   });
@@ -23,7 +23,7 @@ export const RegistrationForm = () => {
     setRegistrationDetails((prevDetails) => ({
       ...prevDetails,
       [name]:
-        name === "contact" || name === "companySize" ? Number(value) : value,
+        name === "contact" ? Number(value) : value,
     }));
   };
 
@@ -41,7 +41,7 @@ export const RegistrationForm = () => {
         companyName: "",
         contact: "",
         email: "",
-        companySize: "",
+        designation: "",
         companyType: "",
       });
     } catch (error) {
@@ -115,13 +115,13 @@ export const RegistrationForm = () => {
               />
             </FormGroup>
             <FormGroup>
-              <label htmlFor="companySize">
-                Company Size<span>*</span>
+              <label htmlFor="designation">
+                Designation<span>*</span>
               </label>
               <input
-                type="number"
-                name="companySize"
-                value={registrationDetails.companySize}
+                type="text"
+                name="designation"
+                value={registrationDetails.designation}
                 onChange={handleInputChange}
                 required
               />

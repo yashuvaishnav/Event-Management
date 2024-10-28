@@ -14,8 +14,9 @@ import { MdEvent } from "react-icons/md";
 import { MdEventAvailable } from "react-icons/md";
 import { FaUserTie } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
+import logo from "../assets/GatherPro.jpeg";
 
-export const AdminNavbar = ({isAuthorized,setIsAuthorized}) => {
+export const AdminNavbar = ({ isAuthorized, setIsAuthorized }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -42,7 +43,7 @@ export const AdminNavbar = ({isAuthorized,setIsAuthorized}) => {
     localStorage.removeItem("token");
     localStorage.removeItem("event");
     localStorage.removeItem("access_token");
-    localStorage.removeItem("expires_in")
+    localStorage.removeItem("expires_in");
     setIsAuthorized(false);
     dispatch(Logout(showSuccessToast, showErrorToast, navigate));
   };
@@ -67,13 +68,7 @@ export const AdminNavbar = ({isAuthorized,setIsAuthorized}) => {
       <Toastify />
       <div className="logoAndSections">
         <div onClick={() => navigate("/")}>
-          <img
-            src={
-              "https://ceoitbox.com/wp-content/uploads/2022/04/logo.png.webp"
-            }
-            className="App-logo"
-            alt="logo"
-          />
+          <img src={logo} className="App-logo" alt="logo" />
         </div>
 
         <div className="profileAndLogoutBtn">

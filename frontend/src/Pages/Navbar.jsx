@@ -2,6 +2,7 @@
 import React from "react";
 import { useNavigate,useLocation } from "react-router-dom";
 import styled from "styled-components";
+import logo from '../assets/GatherPro.jpeg';
 
 export const Navbar = () => {
   const location = useLocation();
@@ -11,13 +12,7 @@ export const Navbar = () => {
     <NavbarDiv>
       <div className="logoAndSections">
         <div className="logodiv" onClick={() => navigate("/")}>
-          <img
-            src={
-              "https://ceoitbox.com/wp-content/uploads/2022/04/logo.png.webp"
-            }
-            className="App-logo"
-            alt="logo"
-          />
+        <img src={logo} alt="Logo" className="App-logo" />
         </div>
 
         <div className="sectionsDiv">

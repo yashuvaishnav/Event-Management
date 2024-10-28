@@ -4,8 +4,13 @@ import { Loader } from "../Components/Loader/Loading";
 import { SiGmail } from "react-icons/si";
 import { Toastify } from "../Components/Toast/Toastify";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { fetchGoogleEventsData, sendThankYouMail, updateAttedance } from "../Components/Redux/DummyGoogleAuth/action";
+import {
+  fetchGoogleEventsData,
+  sendThankYouMail,
+  updateAttedance,
+} from "../Components/Redux/DummyGoogleAuth/action";
 import { GoInfo } from "react-icons/go";
+import { LuRefreshCcw } from "react-icons/lu";
 
 export const Participated = () => {
   const [filteredParticipatedData, setFilteredParticipatedData] = useState([]);
@@ -79,16 +84,17 @@ export const Participated = () => {
   );
 
   const handleAttendance = async (attendance, client) => {
-
     const selectedEvent = googleEventsData.find(
-      (event) => event._id === (selectedEventId === "" ? googleEventsData[0]._id : selectedEventId )
+      (event) =>
+        event._id ===
+        (selectedEventId === "" ? googleEventsData[0]._id : selectedEventId)
     );
     let obj = {
-      attendance : attendance,
-      client : client
-    }
+      attendance: attendance,
+      client: client,
+    };
     try {
-      dispatch(updateAttedance(obj,selectedEvent))
+      dispatch(updateAttedance(obj, selectedEvent));
     } catch (error) {
       console.log(error);
     }
@@ -102,6 +108,7 @@ export const Participated = () => {
     setSearchQuery("");
     setSelectedEventId("");
   };
+  console.log(Math.ceil(filteredParticipatedData.length / itemsPerPage));
 
   return (
     <MainDiv>
@@ -131,75 +138,80 @@ export const Participated = () => {
                 </option>
               ))}
             </select>
-            <button className="resetBtn" onClick={handleReset}>
-              Reset
-            </button>
+            <div onClick={handleReset}>
+              <LuRefreshCcw />
+            </div>
           </div>
         </div>
         <div className="table-container">
           {isLoading ? (
             <Loader />
           ) : (
-            <table className="clientDataTable">
-              <thead>
-                <tr>
-                  <th className="serialNo">S.No</th>
-                  <th>Attendance</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Contact</th>
-                  <th className="sendMailHead">
-                    Send Mail
-                    <GoInfo
-                      size={18}
-                      onMouseEnter={() => setShowPopup(true)}
-                      onMouseLeave={() => setShowPopup(false)}
-                    />
-                    <ShowInfo visible={showPopup}>
-                      For sending thank you and feedback form click the send
-                      mail button.
-                    </ShowInfo>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentData.length > 0 ? (
-                  currentData.map((client, i) => (
-                    <tr key={i}>
-                      <td className="serialNo">
-                        {(currentPage - 1) * itemsPerPage + i + 1})
-                      </td>
-                      <td>
-                        <input
-                          type="checkbox"
-                          className="checkbox"
-                          checked={client.attendance}
-                          onChange={(e) =>
-                            handleAttendance(e.target.checked, client)
-                          }
-                          readOnly
-                        />
-                      </td>
-                      <td>{client.name}</td>
-                      <td>{client.email}</td>
-                      <td>{client.contact}</td>
-                      <td className="send-mail">
-                        <button
-                          className="mail-btn"
-                          onClick={() => postThankYouMail(client)}
-                        >
-                          <SiGmail />
-                        </button>
+            <TableContainer>
+              <table className="clientDataTable">
+                <thead>
+                  <tr>
+                    <th className="selectAllInput">Attandance</th>
+                    <th>Name</th>
+                    <th>Company Name</th>
+                    <th>Designation</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Company Type</th>
+                    <th className="sendMailHead">
+                      Send Email{" "}
+                      <GoInfo
+                        size={18}
+                        onMouseEnter={() => setShowPopup(true)}
+                        onMouseLeave={() => setShowPopup(false)}
+                      />
+                      <ShowInfo visible={showPopup}>
+                        For sending invitations click the send mail button.
+                      </ShowInfo>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentData.length > 0 ? (
+                    currentData.map((client, i) => (
+                      <tr key={i}>
+                        <td className="selectAllInput">
+                          <input
+                            type="checkbox"
+                            className="checkbox"
+                            checked={client.attendance}
+                            onChange={(e) =>
+                              handleAttendance(e.target.checked, client)
+                            }
+                            readOnly
+                          />
+                        </td>
+                        <td>{client.name}</td>
+                        <td>{client.companyName}</td>
+                        <td>{client.designation}</td>
+                        <td>{client.email}</td>
+                        <td>{client.contact}</td>
+                        <td>{client.companyType}</td>
+                        <td className="send-mail">
+                          <button
+                            className="mail-btn"
+                            onClick={() => postThankYouMail(client)}
+                          >
+                            <SiGmail />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={8} className="noDataAvailable">
+                        No Data Available
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={7}>No Data Available</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
+            </TableContainer>
           )}
         </div>
         <PaginationContainer>
@@ -211,7 +223,8 @@ export const Participated = () => {
             onClick={handleNextPage}
             disabled={
               currentPage ===
-              Math.ceil(filteredParticipatedData.length / itemsPerPage)
+                Math.ceil(filteredParticipatedData.length / itemsPerPage) ||
+              currentData.length == 0
             }
           >
             Next
@@ -225,11 +238,11 @@ export const Participated = () => {
 const MainDiv = styled.div`
   .heading {
     display: flex;
-    width: 80%;
+    width: 90%;
     align-items: center;
     justify-content: space-between;
-    margin: 10px auto;
-    /* border: 1px solid black; */
+    margin: auto;
+    margin-top: 10px;
     p {
       font-size: 1.5rem;
       font-weight: 500;
@@ -238,121 +251,133 @@ const MainDiv = styled.div`
 
     .searchClient {
       display: flex;
-      justify-content: end;
       align-items: center;
+      justify-content: end;
       gap: 20px;
-      /* border: 1px solid black; */
       width: 50%;
       input {
-        width: 40%;
-        padding: 8px 0px 8px 10px;
-        font-size: 16px;
-        border: 1px solid #868383cc;
-        outline: none;
+        background-color: #f8fafb;
+        border: none;
         border-radius: 5px;
+        outline: none;
+        padding: 10px;
+        font-weight: 500;
+        width: 30%;
       }
       select {
-        width: 40%;
+        font-weight: 520;
+        color: #868686;
+        background-color: #f8fafb;
+        width: 30%;
         padding: 8px;
         border-radius: 5px;
-        font-size: 16px;
         outline: none;
-        border: 2px solid #cccc;
+        border: none;
         cursor: pointer;
-        option{
-          margin:10px ;
+        option {
+          margin: 10px;
         }
       }
-      .resetBtn {
-        padding: 8px 15px;
-        font-size: 16px;
-        font-weight: 400;
-        border: 2px solid #cccc;
+      div {
+        background-color: #f8fafb;
+        padding: 10px;
         border-radius: 5px;
-        background: none;
-        cursor: pointer;
         &:hover {
-          background-color: #cccc;
+          cursor: pointer;
         }
       }
     }
   }
+`;
+const TableContainer = styled.div`
+  width: 90%;
+  margin: auto;
+  table {
+    width: 100%;
+    background-color: #f8fafb;
+    border-radius: 8px;
+    border-collapse: collapse;
+    thead {
+      .selectAllInput {
+        text-align: center;
+      }
+      .sendMailHead {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg {
+          margin-left: 5px;
+        }
+      }
+      th {
+        border-right: 1px solid #cccc;
+        padding: 12px;
+        text-align: left;
+      }
+      th:nth-child(2) {
+        width: 150px;
+      }
 
-  .clientDataTable {
-    width: 80%;
-    margin: auto;
-    border-collapse: separate;
-    border-spacing: 0 0px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
-      rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  }
-
-  .checkbox {
-    width: 16px;
-    height: 16px;
-  }
-
-  .clientDataTable thead tr {
-    font-weight: bold;
-    font-size: 18px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    .sendMailHead {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      svg {
-        margin-left: 5px;
+      th:nth-child(3) {
+        width: 200px;
+      }
+      th:last-child {
+        border-right: none;
       }
     }
-  }
-  .clientDataTable tbody tr {
-    font-weight: 400;
-    font-size: 16px;
-    color: black;
-    &:hover {
-      background-color: #a1bee0;
-    }
-    td,
-    th {
-      padding: 5px;
-    }
-    .send-mail {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  .clientDataTable thead .serialNo {
-    text-align: center;
-  }
-  .clientDataTable tbody .serialNo {
-    text-align: center;
-  }
-
-  .clientDataTable th,
-  .clientDataTable td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 2px solid #cccc;
-  }
-  .mail-btn {
-    padding: 6px 12px;
-    color: black;
-    background: none;
-    font-size: 18px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    svg {
-      font-size: 20px;
-    }
-    &:hover {
-      text-decoration: underline;
-    }
-    svg {
-      font-size: 20px;
-      &:hover {
-        color: #5bef4a;
+    tbody {
+      tr {
+        &:hover {
+          background: #e4e3e3cc;
+        }
+      }
+      tr:nth-child(odd) {
+        background-color: #fbfcfb;
+        &:hover {
+          background: #e4e3e3cc;
+        }
+      }
+      .selectAllInput {
+        text-align: center;
+        input {
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+      }
+      .send-mail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .mail-btn {
+          padding: 6px 12px;
+          color: black;
+          background: none;
+          font-size: 18px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          &:hover {
+            text-decoration: underline;
+          }
+          svg {
+            font-size: 20px;
+          }
+        }
+      }
+      td {
+        border-right: 1px solid #cccc;
+        padding: 8px 12px;
+        text-align: left;
+      }
+      td:last-child {
+        border-right: none;
+      }
+      tr {
+        .noDataAvailable {
+          text-align: center;
+          padding: 16px 0px;
+        }
       }
     }
   }
@@ -396,9 +421,3 @@ const ShowInfo = styled.div`
   top: 20%;
   transform: translate(-50%, -50%);
 `;
-
-
-// https://www.qrcode-monkey.com/qr-code-api-with-logo/
-
-// <muskaan.tekriwal@masaischool.com>
-// ankitha.basappa@masaischool.com

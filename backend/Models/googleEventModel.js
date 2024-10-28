@@ -20,6 +20,9 @@ const googleEventSchema = mongoose.Schema(
         attendance : { type: Boolean, default: false },
         name : { type: String},
         contact : {type: Number},
+        companyName : {type: String},
+        companyType : {type: String},
+        designation : {type: String}
       }
     ],
     organizedBy: { type: String },
